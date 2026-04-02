@@ -1,0 +1,7 @@
+venv/
+preprocessing/files/
+preprocessing/Movie_Names_extractor.py
+preprocessing/__pycache__/
+**/*.env
+preprocessing/config.py
+preprocessing/Subtitles/
