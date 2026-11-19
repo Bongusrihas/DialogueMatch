@@ -1,7 +1,122 @@
+# ==============================================================================
+# DialogueMatch Production .gitignore
+# ==============================================================================
+
+# --- Python & Runtime Artifacts ---
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Virtual Environments ---
+.venv/
 venv/
-preprocessing/files/
-preprocessing/Movie_Names_extractor.py
-preprocessing/__pycache__/
+**/venv/
+**/.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Testing, Coverage & Linters ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.ruff_cache/
+.mypy_cache/
+
+# --- IDE & OS Junk ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Environment Secrets & Credentials ---
+.env
+*.env
 **/*.env
-preprocessing/config.py
-preprocessing/Subtitles/
+*.local.json
+secrets.json
+
+# --- Process Locks, Logs & Local PIDs ---
+*.log
+**/*.log
+*.pid
+server.pid
+data/*.pid
+
+# --- Large Datasets, Databases & Archives ---
+*.sqlite
+*.sqlite3
+*.db
+*.tar.gz
+*.zip
+*.7z
+*.rar
+data/
+!data/sample/
+!data/sample/**
+
+# --- Large Neural Weights, Embeddings & FAISS Indexes ---
+*.index
+**/*.index
+*.faiss
+**/*.faiss
+*.npy
+**/*.npy
+*.npz
+**/*.npz
+*.bin
+**/*.bin
+*.safetensors
+**/*.safetensors
+*.pt
+*.pth
+*.onnx
+
+# --- Heavy Scratch & Lab Directories ---
+preprocessing/
+index_lab/
+V3/
+archive/experiments/**/index/
+archive/experiments/**/*.index
+archive/experiments/**/*.npy
+archive/experiments/**/*.json
+!archive/README.md
+
+# --- Research Output Dumps (Preserve Golden Benchmark Sets Only) ---
+research/*.json
+research/*.png
+!research/quote_pilot.json
+!research/long_query_cases.json
+!research/fresh150_paired20_queries.json
+!research/fresh150_queries.json
+!research/movie_comparison_subset.json
+!research/v2_benchmark_summary.json

@@ -1,0 +1,6 @@
+numpy>=1.26,<3
+sentence-transformers>=3,<6
+torch>=2.2,<3
+pytest>=8,<10
+faiss-cpu>=1.8,<2
+rapidfuzz>=3,<4

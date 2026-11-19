@@ -1,0 +1,131 @@
+[
+  {
+    "config_name": "Baseline 1: Lexical Only (BM25/FTS5)",
+    "queries_total": 20,
+    "movie_hit1": 1.0,
+    "movie_hit5": 1.0,
+    "movie_hit10": 1.0,
+    "scene_hit1": 0.85,
+    "scene_hit5": 0.9,
+    "mrr10": 0.975,
+    "ndcg10": 0.9815464876785729,
+    "latency_p50_ms": 21.904600000198116,
+    "latency_p95_ms": 162.53219999998691,
+    "categories": {
+      "exact_quote": {
+        "count": 9,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 1.0,
+        "median_ms": 9.633099998609396
+      },
+      "typo_quote": {
+        "count": 3,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 1.0,
+        "median_ms": 27.38390000013169
+      },
+      "semantic_scene": {
+        "count": 5,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 0.9,
+        "median_ms": 114.86800000056974
+      },
+      "narrative_tot": {
+        "count": 3,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 1.0,
+        "median_ms": 61.235900000610854
+      }
+    }
+  },
+  {
+    "config_name": "Baseline 2: Hybrid (Lexical + Dense RRF)",
+    "queries_total": 20,
+    "movie_hit1": 1.0,
+    "movie_hit5": 1.0,
+    "movie_hit10": 1.0,
+    "scene_hit1": 0.85,
+    "scene_hit5": 0.9,
+    "mrr10": 0.975,
+    "ndcg10": 0.9815464876785729,
+    "latency_p50_ms": 18.476100000043516,
+    "latency_p95_ms": 174.88410000078147,
+    "categories": {
+      "exact_quote": {
+        "count": 9,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 1.0,
+        "median_ms": 7.662799998797709
+      },
+      "typo_quote": {
+        "count": 3,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 1.0,
+        "median_ms": 25.44320000015432
+      },
+      "semantic_scene": {
+        "count": 5,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 0.9,
+        "median_ms": 108.93070000020089
+      },
+      "narrative_tot": {
+        "count": 3,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 1.0,
+        "median_ms": 70.25029999931576
+      }
+    }
+  },
+  {
+    "config_name": "DialogueMatch Full (Hybrid + Cross-Encoder Rerank)",
+    "queries_total": 20,
+    "movie_hit1": 1.0,
+    "movie_hit5": 1.0,
+    "movie_hit10": 1.0,
+    "scene_hit1": 0.8,
+    "scene_hit5": 0.85,
+    "mrr10": 0.975,
+    "ndcg10": 0.9815464876785729,
+    "latency_p50_ms": 16.407700000854675,
+    "latency_p95_ms": 1603.9896000002045,
+    "categories": {
+      "exact_quote": {
+        "count": 9,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 1.0,
+        "median_ms": 7.627200000570156
+      },
+      "typo_quote": {
+        "count": 3,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 1.0,
+        "median_ms": 21.557000000029802
+      },
+      "semantic_scene": {
+        "count": 5,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 0.9,
+        "median_ms": 1498.2646999997087
+      },
+      "narrative_tot": {
+        "count": 3,
+        "movie_hit5": 1.0,
+        "target_hit5": 1.0,
+        "mrr10": 1.0,
+        "median_ms": 1355.2663999980723
+      }
+    }
+  }
+]

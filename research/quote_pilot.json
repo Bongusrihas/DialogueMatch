@@ -1,0 +1,16 @@
+[
+  {"query":"do not go gentle into that good night", "movie_id":"tt0816692", "spans":[[2952.013,2955.384],[5076.946,5081.937],[6967.833,6972.3]], "mode":"quote", "category":"exact"},
+  {"query":"why so serious", "movie_id":"tt0468569", "spans":[[1839.882,1845.685],[1866.447,1867.791]], "mode":"quote", "category":"exact"},
+  {"query":"are you not entertained", "movie_id":"tt0172495", "spans":[[4309.59,4313.671]], "mode":"quote", "category":"exact"},
+  {"query":"i am iron man", "movie_id":"tt0371746", "spans":[[3575.923,3577.684],[3104.784,3107.12]], "mode":"quote", "category":"exact"},
+  {"query":"dream within a dream", "movie_id":"tt1375666", "spans":[[3071.844,3073.339],[802.315,804.424],[2444.15,2447.049]], "mode":"quote", "category":"exact"},
+  {"query":"i see you", "movie_id":"tt0499549", "spans":[[7045.777,7047.861],[9145.676,9148.199]], "mode":"quote", "category":"exact"},
+  {"query":"the d is silent", "movie_id":"tt1853728", "spans":[[4078.201,4080.021],[9437.112,9438.314]], "mode":"quote", "category":"exact"},
+  {"query":"not quite my tempo", "movie_id":"tt2582802", "spans":[[1551.76,1553.33],[2937.44,2939.283]], "mode":"quote", "category":"exact"},
+  {"query":"maximum effort", "movie_id":"tt1431045", "spans":[[4367.91,4369.49],[432.307,433.557],[4867.409,4870.829]], "mode":"quote", "category":"exact"},
+  {"query":"avengers assemble", "movie_id":"tt4154796", "spans":[[8293.336,8301.512]], "mode":"quote", "category":"exact"},
+  {"query":"are you not entertainned", "movie_id":"tt0172495", "spans":[[4309.59,4313.671]], "mode":"quote", "category":"typo"},
+  {"query":"not quite my temppo", "movie_id":"tt2582802", "spans":[[1551.76,1553.33],[2937.44,2939.283]], "mode":"quote", "category":"typo"},
+  {"query":"i am iorn man", "movie_id":"tt0371746", "spans":[[3575.923,3577.684],[3104.784,3107.12]], "mode":"quote", "category":"typo"},
+  {"query":"avengers assembel", "movie_id":"tt4154796", "spans":[[8293.336,8301.512]], "mode":"quote", "category":"typo"}
+]

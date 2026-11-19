@@ -1,0 +1,112 @@
+{
+  "quote_pilot_span_hit5": 0.9285714285714286,
+  "long_queries_span_hit5": 0.9090909090909091,
+  "long_queries_categories": {
+    "embedded_quote": {
+      "count": 4,
+      "movie_hit5": 1.0,
+      "span_labeled_rows": 4,
+      "span_hit5": 1.0
+    },
+    "humanized": {
+      "count": 6,
+      "movie_hit5": 0.8333333333333334,
+      "span_labeled_rows": 6,
+      "span_hit5": 0.8333333333333334
+    },
+    "long_direct_dialogue": {
+      "count": 6,
+      "movie_hit5": 1.0,
+      "span_labeled_rows": 6,
+      "span_hit5": 1.0
+    },
+    "long_humanized": {
+      "count": 6,
+      "movie_hit5": 0.8333333333333334,
+      "span_labeled_rows": 6,
+      "span_hit5": 0.8333333333333334
+    },
+    "visual_or_source_limit": {
+      "count": 3,
+      "movie_hit5": 0.0,
+      "span_labeled_rows": 0,
+      "span_hit5": null
+    }
+  },
+  "movie_subset30_hit5": 0.5,
+  "tot22_movie_hit5": 0.45454545454545453,
+  "fresh150_categories": {
+    "direct_dialogue": {
+      "count": 40,
+      "movie_hit1": 40,
+      "movie_hit5": 40,
+      "movie_hit10": 40,
+      "median_ms": 18.0,
+      "p95_ms": 43,
+      "scene_hit1": 40,
+      "scene_hit5": 40,
+      "scene_hit10": 40
+    },
+    "imperfect_dialogue": {
+      "count": 40,
+      "movie_hit1": 40,
+      "movie_hit5": 40,
+      "movie_hit10": 40,
+      "median_ms": 1140.0,
+      "p95_ms": 2134,
+      "scene_hit1": 40,
+      "scene_hit5": 40,
+      "scene_hit10": 40
+    },
+    "natural_description": {
+      "count": 20,
+      "movie_hit1": 14,
+      "movie_hit5": 17,
+      "movie_hit10": 19,
+      "median_ms": 7348.0,
+      "p95_ms": 8402,
+      "scene_hit1": 12,
+      "scene_hit5": 16,
+      "scene_hit10": 18
+    },
+    "long_natural_description": {
+      "count": 20,
+      "movie_hit1": 13,
+      "movie_hit5": 19,
+      "movie_hit10": 20,
+      "median_ms": 7474.0,
+      "p95_ms": 9420,
+      "scene_hit1": 13,
+      "scene_hit5": 19,
+      "scene_hit10": 20
+    },
+    "visual_memory": {
+      "count": 30,
+      "movie_hit1": 17,
+      "movie_hit5": 20,
+      "movie_hit10": 21,
+      "median_ms": 5300.5,
+      "p95_ms": 6478
+    }
+  },
+  "fresh150_diagnoses": {
+    "hit": 118,
+    "candidate_miss": 1,
+    "reranking_miss": 1,
+    "visual_or_movie_miss": 9,
+    "movie_only_unverified": 21
+  },
+  "paired20_categories": {
+    "paired_concise_description": {
+      "count": 20,
+      "movie_hit1": 13,
+      "movie_hit5": 19,
+      "movie_hit10": 20,
+      "median_ms": 7683.5,
+      "p95_ms": 9304,
+      "scene_hit1": 13,
+      "scene_hit5": 19,
+      "scene_hit10": 20
+    }
+  }
+}

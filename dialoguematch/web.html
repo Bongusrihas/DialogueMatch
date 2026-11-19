@@ -1,0 +1,1432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#100e10">
+  <title>DialogueMatch — That scene. That line. Found.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #100e10;
+      --red: #ee4155;
+      --accent: #ff8d99;
+      --text: #f8f3f4;
+      --muted: #b8a6b0;
+      --line: #ffffff17;
+      font-family: 'DM Sans', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 85% 0, #67212f30, transparent 50%);
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; color: inherit; }
+    a { color: inherit; }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    button:disabled { cursor: wait; opacity: .65; }
+    .shell { max-width: 1240px; margin: auto; padding: 0 40px; }
+    header {
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font: 800 19px Manrope, sans-serif;
+      letter-spacing: -.7px;
+      text-decoration: none;
+    }
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 31px;
+      height: 31px;
+      border-radius: 9px;
+      background: var(--red);
+      color: white;
+      font-size: 12px;
+    }
+    .brand-dot { color: var(--red); }
+    .header-right { display: flex; align-items: center; gap: 22px; }
+    .header-label { font-size: 10px; letter-spacing: 1.8px; color: #a18e99; }
+    .text-button { border: 0; background: transparent; padding: 9px 0; font-size: 12px; color: #d9c9d2; }
+    .text-button:hover { color: #fff; }
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      min-height: 325px;
+      display: flex;
+      align-items: center;
+    }
+    .hero-art {
+      position: absolute;
+      inset: 0 0 0 28%;
+      z-index: -2;
+      background: url('/assets/cinema-hero-v2.png') center 55%/cover;
+      filter: grayscale(1);
+      opacity: .48;
+    }
+    .hero:after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, #100e10 12%, #100e10e0 33%, #35101c38 80%), linear-gradient(0deg, #100e10, transparent 30%);
+    }
+    .hero-content { padding: 38px 0 42px; max-width: 700px; }
+    .eyebrow {
+      font-size: 9px;
+      letter-spacing: 2.7px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eyebrow:before { content: ''; width: 19px; height: 2px; background: var(--red); }
+    h1 {
+      font: 800 clamp(38px, 5vw, 62px)/1.08 Manrope, Arial, sans-serif;
+      letter-spacing: -2.6px;
+      margin: 18px 0 16px;
+    }
+    h1 span { color: var(--accent); }
+    .hero-description { font-size: 14px; line-height: 1.75; color: #c3b7be; max-width: 470px; margin: 0; }
+    .hero-caption { position: absolute; bottom: 30px; right: 0; font-size: 9px; letter-spacing: 1.5px; color: #b89aa6; }
+    .search-area { padding: 28px 0 0; }
+    .search-box {
+      border: 1px solid #b75b6c45;
+      background: linear-gradient(120deg, #25191f, #191619 75%);
+      border-radius: 17px;
+      padding: 23px 25px;
+      box-shadow: 0 12px 40px #0004;
+      scroll-margin-top: 20px;
+    }
+    .search-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .search-heading h2 { font: 700 18px Manrope, sans-serif; letter-spacing: -.4px; margin: 0; }
+    .mode-switch {
+      display: flex;
+      padding: 3px;
+      background: #110f12;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      gap: 3px;
+    }
+    .mode-switch button {
+      font-size: 11px;
+      padding: 7px 13px;
+      border-radius: 6px;
+      border: 0;
+      background: transparent;
+      color: #afa0a9;
+      white-space: nowrap;
+      transition: background .15s, color .15s;
+    }
+    .mode-switch button[aria-pressed=true] { color: #fff; background: #58303d; font-weight: 600; }
+    .search-row { display: flex; gap: 11px; }
+    .search-input {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      min-width: 0;
+      border: 1px solid #b8a7b436;
+      border-radius: 10px;
+      background: #100e11;
+    }
+    .search-input:focus-within { border-color: var(--accent); }
+    .search-input > span { font-size: 22px; color: #d19ba9; padding-left: 15px; }
+    .search-input input {
+      width: 100%;
+      min-width: 0;
+      padding: 16px 14px;
+      background: transparent;
+      color: var(--text);
+      border: 0;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-input input::placeholder { color: #94838d; }
+    .primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ff788533;
+      background: var(--red);
+      color: white;
+      border-radius: 10px;
+      padding: 15px 23px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background .15s;
+    }
+    .primary:hover { background: #f45164; }
+    .sample-chips {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+      margin-top: 13px;
+    }
+    .sample-chips > span { font-size: 10px; color: #9e8c97; text-transform: uppercase; letter-spacing: .8px; margin-right: 3px; }
+    .chip {
+      border: 1px solid #ffffff1c;
+      background: #141115;
+      color: #d6c6cf;
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 11px;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .chip:hover { border-color: var(--accent); color: #fff; background: #281b22; }
+    .refine-bar {
+      margin-top: 13px;
+      padding: 11px 13px;
+      border-radius: 10px;
+      background: #161116;
+      border: 1px dashed #ff8d9940;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .refine-bar > span { font-size: 11px; color: #e2b8c3; font-weight: 600; }
+    .refine-bar input {
+      flex: 1;
+      min-width: 180px;
+      background: #0e0c0f;
+      border: 1px solid #ffffff22;
+      border-radius: 7px;
+      padding: 6px 10px;
+      color: #fff;
+      font-size: 12px;
+    }
+    .options {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: start;
+    }
+    .options > p { font-size: 11px; color: #ad99a5; line-height: 1.6; margin: 0; }
+    .movie-filter-wrap { position: relative; min-width: 260px; max-width: 340px; }
+    .advanced { font-size: 11px; color: #bfaeb8; }
+    .advanced > summary { cursor: pointer; list-style: none; text-align: right; user-select: none; }
+    .advanced > summary::-webkit-details-marker { display: none; }
+    .advanced > summary:after { content: ' +'; color: var(--accent); }
+    .advanced[open] > summary:after { content: ' −'; }
+    .advanced label { display: block; margin-top: 10px; font-size: 10px; color: #ac98a4; }
+    .movie-input-row { display: flex; gap: 6px; margin-top: 6px; align-items: center; }
+    .movie-input-row input {
+      flex: 1;
+      border: 1px solid #ffffff26;
+      border-radius: 7px;
+      background: #100e11;
+      color: white;
+      padding: 8px 11px;
+      font-size: 12px;
+      min-width: 0;
+    }
+    .clear-movie {
+      border: 1px solid #ffffff24;
+      background: #23181e;
+      border-radius: 7px;
+      padding: 7px 10px;
+      font-size: 11px;
+      color: #e4cad3;
+    }
+    .suggestions {
+      position: absolute;
+      right: 0;
+      left: 0;
+      top: 100%;
+      margin-top: 5px;
+      background: #191318;
+      border: 1px solid #ff8d9945;
+      border-radius: 10px;
+      box-shadow: 0 14px 32px #000b;
+      z-index: 30;
+      max-height: 240px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+    .suggestion-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      padding: 8px 10px;
+      border-radius: 7px;
+      font-size: 12px;
+      color: #f3e8ee;
+    }
+    .suggestion-item:hover, .suggestion-item:focus-visible { background: #36202a; }
+    .suggestion-meta { font-size: 10px; color: #b79fad; white-space: nowrap; }
+    .active-movie-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #3d1e29;
+      border: 1px solid #ff8d9944;
+      font-size: 11px;
+      color: #ffd7dc;
+    }
+    .active-movie-badge button {
+      border: 0;
+      background: transparent;
+      color: #ff9aa6;
+      padding: 0 2px;
+      font-size: 13px;
+      line-height: 1;
+    }
+    .index-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 190px 100px;
+      gap: 14px;
+      margin-top: 17px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .index-controls label { display: grid; gap: 7px; color: #d8c8d0; font-size: 11px; font-weight: 600; }
+    .index-controls select, .index-controls input {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid #ffffff35;
+      border-radius: 8px;
+      background: #100e11;
+      color: #f8f3f4;
+      padding: 9px 11px;
+      font-size: 12px;
+    }
+    .index-hint { grid-column: 1/-1; color: var(--muted); font-size: 11px; line-height: 1.5; margin: 0; }
+    .library {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #9e8f9a;
+      font-size: 11px;
+      margin: 15px 2px;
+      line-height: 1.6;
+    }
+    .library:before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      flex-shrink: 0;
+      background: #ee4155;
+      border-radius: 50%;
+    }
+
+    /* Living Memory Lens Banner */
+    .memory-lens {
+      margin: 18px 0 8px;
+      border: 1px solid #ff8d9938;
+      background: linear-gradient(135deg, #24161e, #161317 70%);
+      border-radius: 14px;
+      padding: 16px 20px;
+    }
+    .lens-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .lens-title {
+      font: 700 11px Manrope, sans-serif;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .lens-split {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .lens-box {
+      padding: 10px 13px;
+      border-radius: 9px;
+      background: #110e12aa;
+      border: 1px solid #ffffff14;
+    }
+    .lens-box strong {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: #e6aeb9;
+      margin-bottom: 4px;
+    }
+    .lens-box span { font-size: 12.5px; color: #ece0e6; line-height: 1.5; }
+    .worlds-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .9px;
+      color: #a8949f;
+      margin: 8px 0 7px;
+    }
+    .worlds-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 9px;
+    }
+    .world-card {
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 1px solid #ffffff1a;
+      background: #141015cc;
+      transition: border-color .15s, background .15s;
+    }
+    .world-card:hover { border-color: var(--accent); background: #291922; }
+    .world-card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 12.5px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .world-card-meta { font-size: 10.5px; color: var(--accent); white-space: nowrap; }
+    .world-card-desc {
+      font-size: 11px;
+      color: #bfb0b8;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    #state { color: #c5b6bf; font-size: 12px; line-height: 1.7; margin: 16px 0 12px; }
+    #state:empty { display: none; }
+    .progress { height: 3px; background: #49202d; border-radius: 3px; overflow: hidden; margin: 18px 0; }
+    .progress:after {
+      content: '';
+      display: block;
+      width: 35%;
+      height: 100%;
+      background: var(--red);
+      border-radius: 3px;
+      animation: loading-bar 1.4s ease-in-out infinite;
+    }
+    .results-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: center;
+      padding: 14px 0 20px;
+    }
+    .results-head h2 { font: 700 22px Manrope, sans-serif; letter-spacing: -.6px; margin: 0; }
+    .results-head span { font-size: 11px; color: #a896a1; }
+    .result-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+    article {
+      position: relative;
+      isolation: isolate;
+      min-width: 0;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, #2c1a25, #1b171b 60%);
+      border-radius: 14px;
+      overflow: hidden;
+      padding-top: 26px;
+      transition: border-color .2s;
+    }
+    article:hover { border-color: #ff8d9940; }
+    article:after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(0deg, #1b171b 18%, #1b171bc8 75%, #1b171b80);
+    }
+    .movie-backdrop {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      z-index: -2;
+      transition: opacity .3s;
+    }
+    .has-artwork .movie-backdrop { opacity: 1; }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 0 22px;
+      font-size: 9.5px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #b7a1af;
+    }
+    .rank { color: var(--accent); font-weight: 700; }
+    .match-badge {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #ffffff12;
+      color: #f3dfe5;
+      font-weight: 600;
+    }
+    .match-badge.exact { background: #ee415538; border: 1px solid #ff8d9966; color: #ffd4d9; }
+    .card-content { padding: 14px 22px 22px; }
+    .title-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+    article h3 {
+      font: 700 22px/1.28 Manrope, Arial, sans-serif;
+      letter-spacing: -.55px;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+    .movie-submeta { font-size: 11px; color: #cbb5c1; white-space: nowrap; }
+    .time-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .time {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-variant-numeric: tabular-nums;
+      color: #f2c2ce;
+      background: #120f13aa;
+      border: 1px solid #ffffff1a;
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+    .time:before { content: '◷'; font-size: 13px; color: var(--accent); }
+    .mini-action {
+      border: 1px solid #ffffff1c;
+      background: #151116aa;
+      color: #d6c2cd;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 10.5px;
+      text-decoration: none;
+    }
+    .mini-action:hover { border-color: var(--accent); color: #fff; }
+
+    /* Visual Film Arc Progress Bar */
+    .arc-track-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 8px 0 11px;
+    }
+    .arc-track {
+      position: relative;
+      flex: 1;
+      height: 5px;
+      border-radius: 999px;
+      background: #ffffff16;
+      overflow: visible;
+    }
+    .arc-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #6e2736, var(--red));
+    }
+    .arc-dot {
+      position: absolute;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--red);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px var(--red);
+    }
+    .arc-label {
+      font-size: 10.5px;
+      color: #e4bbc6;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .why-line {
+      font-size: 11px;
+      color: #e7c6cf;
+      background: #ee415518;
+      border-left: 2px solid var(--accent);
+      padding: 6px 10px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .prev-beat {
+      font-size: 11.5px;
+      color: #a997a2;
+      margin: 0 0 6px;
+      line-height: 1.5;
+    }
+    .prev-beat strong { color: #cdb9c5; font-weight: 600; }
+
+    .evidence-pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .ev-pill {
+      font-size: 9.5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #ffffff0e;
+      color: #cab6c2;
+      letter-spacing: .3px;
+    }
+    .summary { font-size: 13px; color: #d5c8d0; line-height: 1.75; overflow-wrap: anywhere; }
+    .excerpt {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      margin: 8px 0 14px;
+    }
+    .dialogue-details, .context-details, .world-details {
+      border-top: 1px solid var(--line);
+      padding-top: 11px;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+    .dialogue-details > summary, .context-details > summary, .world-details > summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #e9dce3;
+      font-weight: 500;
+    }
+    .dialogue-details > summary::-webkit-details-marker,
+    .context-details > summary::-webkit-details-marker,
+    .world-details > summary::-webkit-details-marker { display: none; }
+    .dialogue-details > summary:after,
+    .context-details > summary:after,
+    .world-details > summary:after { content: '+'; font-size: 17px; color: var(--accent); }
+    .dialogue-details[open] > summary:after,
+    .context-details[open] > summary:after,
+    .world-details[open] > summary:after { content: '−'; }
+    blockquote {
+      white-space: pre-wrap;
+      font: 400 13px/1.82 'DM Sans', Arial, sans-serif;
+      color: #ece1e8;
+      margin: 14px 0;
+      padding-left: 14px;
+      border-left: 2px solid var(--red);
+      overflow-wrap: anywhere;
+    }
+    mark {
+      background: #ee415548;
+      color: #fff;
+      padding: 0 2px;
+      border-radius: 3px;
+    }
+    .timeline-box { display: grid; gap: 10px; margin-top: 12px; }
+    .timeline-item {
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #120f13cc;
+      border: 1px solid #ffffff14;
+    }
+    .timeline-item.current { border-color: #ee415588; background: #26151ecc; }
+    .timeline-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: #e5b7c3;
+      margin-bottom: 5px;
+      font-variant-numeric: tabular-nums;
+    }
+    .timeline-text { font-size: 12px; color: #ddd0d7; line-height: 1.65; white-space: pre-wrap; }
+    article small { font-size: 10px; color: #b5a0ae; line-height: 1.7; display: block; }
+    .art-source { font-size: 9px; color: #bda5b6; display: inline-block; margin-top: 12px; text-decoration: none; }
+    .art-source:hover { text-decoration: underline; }
+    .plot-details { margin-top: 13px; font-size: 11px; color: var(--accent); }
+    .plot-details summary { cursor: pointer; }
+    .note { font-size: 10px; color: #baa086; line-height: 1.7; overflow-wrap: anywhere; margin: 8px 0 0; }
+    .empty { padding: 25px; border: 1px solid var(--line); border-radius: 12px; background: #1a151b; color: #c4b3c0; font-size: 13px; line-height: 1.8; }
+    .skeleton { height: 300px; padding: 0; pointer-events: none; }
+    .skeleton:after { display: none; }
+    .skeleton-picture { height: 110px; background: #281e26; overflow: hidden; margin-bottom: 20px; }
+    .bone { height: 12px; border-radius: 5px; background: #352832; margin: 13px 22px; position: relative; overflow: hidden; }
+    .bone.title { height: 22px; width: 65%; margin-top: 0; }
+    .bone.short { width: 40%; }
+    .bone:after, .skeleton-picture:after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, #ffffff08, transparent);
+      animation: shimmer 1.5s infinite;
+    }
+    footer {
+      margin: 42px 0 0;
+      padding: 22px 0 28px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 25px;
+      font-size: 10px;
+      line-height: 1.8;
+      color: #998792;
+    }
+    footer p { margin: 0; max-width: 540px; }
+    .credits { margin: 20px 0 0; font-size: 10px; line-height: 1.8; color: #9b8b96; }
+    .credits img { width: 65px; vertical-align: middle; margin-right: 12px; }
+    .credits p { display: inline; }
+    dialog {
+      color: var(--text);
+      background: #21191f;
+      border: 1px solid #99566c55;
+      padding: 28px;
+      border-radius: 15px;
+      max-width: 480px;
+      width: calc(100% - 35px);
+    }
+    dialog::backdrop { background: #000b; backdrop-filter: blur(5px); }
+    dialog h2 { font: 700 24px Manrope, sans-serif; margin: 0 0 15px; }
+    dialog p { font-size: 13px; line-height: 1.8; color: #c4b1be; }
+    html { scroll-behavior: smooth; }
+    [hidden] { display: none !important; }
+    @keyframes loading-bar { from { transform: translateX(-100%); } to { transform: translateX(390%); } }
+    @keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+    @media (max-width: 820px) {
+      .shell { padding: 0 24px; }
+      .hero { min-height: 300px; }
+      .hero-caption { display: none; }
+      .hero-art { left: 15%; opacity: .35; }
+      .result-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .shell { padding: 0 18px; }
+      header { height: 70px; }
+      .header-label { display: none; }
+      .search-box { padding: 18px 15px; }
+      .search-heading { display: block; }
+      .search-heading h2 { margin-bottom: 12px; }
+      .mode-switch { width: fit-content; }
+      .search-row { flex-direction: column; }
+      .primary { width: 100%; }
+      .options { flex-direction: column; }
+      .movie-filter-wrap { width: 100%; max-width: none; }
+      .advanced > summary { text-align: left; }
+      .index-controls { grid-template-columns: minmax(0, 1fr) 100px; gap: 10px; }
+      .index-controls label:first-child { grid-column: 1/-1; }
+      footer { flex-direction: column; gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *:before, *:after { animation: none !important; transition: none !important; }
+      .progress:after { width: 100%; opacity: .7; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a href="#" class="brand"><span class="brand-icon" aria-hidden="true">▶</span>DialogueMatch<span class="brand-dot">.</span></a>
+      <div class="header-right">
+        <span class="header-label">A HOME FOR MOVIE MEMORIES</span>
+        <button class="text-button" id="how-button" type="button">How it works ↗</button>
+      </div>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-art" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="eyebrow">Global film memory + exact moment</div>
+        <h1 id="hero-title">Can't name the film?<br><span>Tell the story &amp; scene.</span></h1>
+        <p class="hero-description">Describe how the movie starts, what the film is about, and the moment or line you remember. DialogueMatch connects the film’s global world to the exact scene.</p>
+      </div>
+      <div class="hero-caption">● &nbsp; THE ART OF REMEMBERING</div>
+    </section>
+
+    <section class="search-area" aria-label="Search movies">
+      <form id="search" class="search-box">
+        <div class="search-heading">
+          <h2>What do you remember?</h2>
+          <div class="mode-switch" role="group" aria-label="Search mode">
+            <button type="button" data-mode="auto" aria-pressed="true">All</button>
+            <button type="button" data-mode="quote" aria-pressed="false">Quote</button>
+            <button type="button" data-mode="scene" aria-pressed="false">Scene</button>
+          </div>
+        </div>
+        <input type="hidden" name="mode" value="auto">
+
+        <div class="search-row">
+          <div class="search-input">
+            <span aria-hidden="true">⌕</span>
+            <input id="query" name="q" type="search" aria-label="Quote or scene description" aria-describedby="search-tip" placeholder="e.g. Movie starts with crops dying on Earth, and much later he watches 23 years of messages…" required maxlength="4000" autocomplete="off">
+          </div>
+          <button id="submit" class="primary" type="submit">Find the scene →</button>
+        </div>
+
+        <div class="sample-chips" aria-label="Example searches">
+          <span>Try:</span>
+          <button type="button" class="chip" data-sample="The movie starts with crops failing on Earth and a former pilot leaving his kids, and much later he watches 23 years of recorded messages" data-sample-mode="auto">Intro + later scene</button>
+          <button type="button" class="chip" data-sample="In a movie about creating a social website at Harvard, there is a scene where his best friend storms in furious that his shares were diluted" data-sample-mode="auto">Premise + dialogue beat</button>
+          <button type="button" class="chip" data-sample="Messages span 23 years" data-sample-mode="quote">Exact quote</button>
+          <button type="button" class="chip" data-sample="are you not entertainned" data-sample-mode="quote">Typo quote</button>
+        </div>
+
+        <div id="refine-bar" class="refine-bar" hidden>
+          <span>Refine memory:</span>
+          <input id="refine-input" type="text" placeholder="Add another clue (e.g. happens near the end, in a diner, or a spoken word)…">
+          <button type="button" class="chip" id="refine-apply">+ Add clue</button>
+          <button type="button" class="chip" data-refine-clue="at the very beginning of the movie">Opening scene</button>
+          <button type="button" class="chip" data-refine-clue="near the end of the movie">Near the ending</button>
+          <button type="button" class="chip" id="refine-reset">Reset</button>
+        </div>
+
+        <div id="active-movie-pill" class="active-movie-badge" hidden>
+          <span id="active-movie-text"></span>
+          <button type="button" id="remove-movie-pill" aria-label="Clear movie filter">×</button>
+        </div>
+
+        <div class="options">
+          <p id="search-tip">Mix whole-movie setup (“starts with…”, “a film about…”) with the specific scene or dialogue you want located.</p>
+          <div class="movie-filter-wrap">
+            <details class="advanced" id="movie-details">
+              <summary>Narrow to a movie</summary>
+              <label for="movie-input">Movie title or IMDb ID (optional)</label>
+              <div class="movie-input-row">
+                <input id="movie-input" name="movie" aria-label="Movie title or IMDb ID" placeholder="e.g. Interstellar or tt0816692" autocomplete="off">
+                <button type="button" class="clear-movie" id="clear-movie" hidden>Clear</button>
+              </div>
+            </details>
+            <div id="movie-suggestions" class="suggestions" role="listbox" hidden></div>
+          </div>
+        </div>
+
+        <div class="index-controls">
+          <label for="index-choice">Semantic index
+            <select id="index-choice" name="index">
+              <option value="current">Ensemble · Fine-tuned + BGE + Full Library</option>
+            </select>
+          </label>
+          <label for="retrieval-choice">Search type
+            <select id="retrieval-choice" name="retrieval">
+              <option value="combined">Combined search</option>
+              <option value="index">Selected index only</option>
+            </select>
+          </label>
+          <label for="result-count">Results
+            <input id="result-count" name="k" type="number" min="1" max="30" step="1" value="10" required>
+          </label>
+          <p class="index-hint" id="index-hint">Combined search separates global film context from target scene clues, fusing neural embeddings, rare-clue BM25, and cross-encoder reranking.</p>
+        </div>
+      </form>
+      <p class="library" id="library">Connecting to your movie library…</p>
+    </section>
+
+    <section id="memory-lens" class="memory-lens" aria-label="Memory understanding" hidden></section>
+    <p id="state" role="status" aria-live="polite"></p>
+    <div id="progress" class="progress" role="progressbar" aria-label="Searching your movie library" hidden></div>
+    <main id="results" aria-label="Matching movie scenes" aria-busy="false"></main>
+
+    <div id="artwork-credits" class="credits" hidden>
+      <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">
+        <img src="https://image.tmdb.org/t/p/original/wwemzKWzjKYJFfCeiB57q3r4Bcm.png" alt="TMDB" loading="lazy">
+      </a>
+      <p>This product uses the TMDB API but is not endorsed or certified by TMDB. Movie artwork does not verify a scene frame.</p>
+    </div>
+
+    <footer>
+      <p>DialogueMatch. Made for the moments that stay.</p>
+      <p>Times follow the indexed subtitle release. Scene descriptions may be generated; dialogue is the source evidence.</p>
+    </footer>
+  </div>
+
+  <dialog id="how-dialog">
+    <h2>Global film memory meets exact scene.</h2>
+    <p>Describe both the <strong>movie’s world or intro</strong> (“starts with…”, “a film about…”) and the <strong>moment or dialogue</strong> (“and in one scene…”). DialogueMatch matches the film’s global dossier first, then zeroes in on the exact scene and act position.</p>
+    <p>Inspect the film arc bar, preceding story beat, full dialogue transcript, or ±1 adjacent scenes on any result card.</p>
+    <form method="dialog"><button class="primary">Got it</button></form>
+  </dialog>
+
+  <script>
+    let artworkEnabled = false;
+    let activeAbort = null;
+    let suggestTimer = null;
+    const artworkCache = new Map();
+
+    const form = document.querySelector('#search');
+    const queryInput = document.querySelector('#query');
+    const refineBar = document.querySelector('#refine-bar');
+    const refineInput = document.querySelector('#refine-input');
+    const memoryLens = document.querySelector('#memory-lens');
+    const movieInput = document.querySelector('#movie-input');
+    const clearMovieBtn = document.querySelector('#clear-movie');
+    const movieSuggestions = document.querySelector('#movie-suggestions');
+    const activeMoviePill = document.querySelector('#active-movie-pill');
+    const activeMovieText = document.querySelector('#active-movie-text');
+    const state = document.querySelector('#state');
+    const results = document.querySelector('#results');
+    const button = document.querySelector('#submit');
+    const indexChoice = document.querySelector('#index-choice');
+    const retrievalChoice = document.querySelector('#retrieval-choice');
+    const indexHint = document.querySelector('#index-hint');
+
+    const STOP_HIGHLIGHT = new Set(['the','and','for','that','this','with','from','have','was','were','are','you','your','his','her','they','their','what','when','where','who','into','about','scene','movie','film','starts','later']);
+
+    function node(tag, text, cls) {
+      const el = document.createElement(tag);
+      if (text !== undefined && text !== null && text !== '') el.textContent = text;
+      if (cls) el.className = cls;
+      return el;
+    }
+
+    function setMode(mode) {
+      form.elements.mode.value = mode;
+      document.querySelectorAll('[data-mode]').forEach(b => {
+        b.setAttribute('aria-pressed', String(b.dataset.mode === mode));
+      });
+    }
+
+    function updateMoviePill(label) {
+      const val = movieInput.value.trim();
+      clearMovieBtn.hidden = !val;
+      if (val) {
+        activeMovieText.textContent = 'Filtered to: ' + (label || val);
+        activeMoviePill.hidden = false;
+      } else {
+        activeMoviePill.hidden = true;
+      }
+    }
+
+    function setMovieFilter(movieId, title, year) {
+      movieInput.value = movieId;
+      movieSuggestions.hidden = true;
+      updateMoviePill(title ? `${title}${year ? ' (' + year + ')' : ''} · ${movieId}` : movieId);
+    }
+
+    clearMovieBtn.onclick = () => { movieInput.value = ''; movieSuggestions.hidden = true; updateMoviePill(''); };
+    document.querySelector('#remove-movie-pill').onclick = () => { movieInput.value = ''; updateMoviePill(''); };
+
+    // Conversational refinement controls
+    function appendRefinement(clueText) {
+      const clue = (clueText || '').trim();
+      if (!clue) return;
+      const base = queryInput.value.trim();
+      queryInput.value = base ? `${base.replace(/[.!?]+$/, '')}. ${clue}` : clue;
+      refineInput.value = '';
+      setMode('auto');
+      form.requestSubmit();
+    }
+    document.querySelector('#refine-apply').onclick = () => appendRefinement(refineInput.value);
+    refineInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        appendRefinement(refineInput.value);
+      }
+    });
+    document.querySelectorAll('[data-refine-clue]').forEach(btn => {
+      btn.onclick = () => appendRefinement(btn.dataset.refineClue);
+    });
+    document.querySelector('#refine-reset').onclick = () => {
+      queryInput.value = '';
+      movieInput.value = '';
+      updateMoviePill('');
+      refineBar.hidden = true;
+      memoryLens.hidden = true;
+      results.replaceChildren();
+      state.textContent = '';
+      queryInput.focus();
+    };
+
+    movieInput.addEventListener('input', () => {
+      updateMoviePill('');
+      clearTimeout(suggestTimer);
+      const q = movieInput.value.trim();
+      if (q.length < 2) {
+        movieSuggestions.hidden = true;
+        return;
+      }
+      suggestTimer = setTimeout(async () => {
+        try {
+          const res = await fetch('/api/catalog?' + new URLSearchParams({ q, limit: '8' }));
+          if (!res.ok) return;
+          const data = await res.json();
+          movieSuggestions.replaceChildren();
+          if (!data.results?.length) {
+            movieSuggestions.hidden = true;
+            return;
+          }
+          for (const m of data.results) {
+            const btn = node('button', '', 'suggestion-item');
+            btn.type = 'button';
+            btn.append(
+              node('span', m.title),
+              node('span', `${m.year || ''}${m.rating ? ' · ★ ' + m.rating.toFixed(1) : ''} · ${m.id}`, 'suggestion-meta')
+            );
+            btn.onclick = () => setMovieFilter(m.id, m.title, m.year);
+            movieSuggestions.append(btn);
+          }
+          movieSuggestions.hidden = false;
+        } catch {}
+      }, 160);
+    });
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.movie-filter-wrap')) movieSuggestions.hidden = true;
+    });
+
+    function updateIndexHint() {
+      indexHint.textContent = retrievalChoice.value === 'index'
+        ? 'Index only displays raw semantic vector similarity order without global film context, keyword search, or cross-encoder reranking.'
+        : 'Combined search separates global film context from target scene clues, fusing neural embeddings, rare-clue BM25, and cross-encoder reranking.';
+    }
+
+    indexChoice.addEventListener('change', () => {
+      retrievalChoice.value = indexChoice.value === 'current' ? 'combined' : 'index';
+      updateIndexHint();
+    });
+    retrievalChoice.addEventListener('change', updateIndexHint);
+
+    const friendlyIndexes = {
+      '01_v3_files_1606text': 'V3 · legacy BGE baseline',
+      '02_preprocessing_finetuned_model_dialogue': 'Fine-tuned · dialogue',
+      '03_preprocessing_finetuned_model_extra': 'Fine-tuned · emotion & cues',
+      '04_preprocessing_finetuned_model_summary': 'Fine-tuned · summary',
+      '12_preprocessing_indexes_chunk_embeddings_ctx_combined': 'BGE · combined context',
+      '15_preprocessing_indexes_movies_s_e_baai': 'BGE · summary + emotion',
+      '18_preprocessing_indexes_movies_t_e_baai': 'BGE · dialogue + emotion',
+      '20_preprocessing_movies_colbert': 'MiniLM · sentence index'
+    };
+
+    const channelLabels = {
+      'exact_phrase': 'Exact Phrase',
+      'fuzzy_quote': 'Typo Match',
+      'global_context_guided': 'Global Film Dossier',
+      'fine_dialogue': 'Fine-Tuned Dialogue',
+      'fine_summary': 'Fine-Tuned Summary',
+      'bge_context': 'Context Vector',
+      'rare_clues': 'Rare Clues',
+      'keyword': 'Keyword BM25',
+      'sequences': 'Storyline Sequence',
+      'plot_guided': 'Plot Guided',
+      'spelling': 'Spelling Recovery'
+    };
+
+    fetch('/api/status').then(r => { if (!r.ok) throw Error(); return r.json(); }).then(d => {
+      artworkEnabled = Boolean(d.artwork_enabled);
+      for (const item of d.indexes || []) {
+        if (item.id === 'current') {
+          indexChoice.options[0].textContent = item.label || 'Current app index';
+          continue;
+        }
+        const option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = friendlyIndexes[item.id] || item.label;
+        indexChoice.append(option);
+      }
+      if (!d.semantic) indexChoice.disabled = true;
+      const semText = d.semantic
+        ? (d.semantic_mode === 'multi_index_ensemble' ? `Multi-index ensemble (${(d.semantic_scenes || 0).toLocaleString()} scenes)` : 'Semantic search ready')
+        : 'Keyword search ready';
+      const ctxText = d.global_context ? ' · Global film dossiers active' : '';
+      document.querySelector('#library').textContent =
+        `${d.stats.movies.toLocaleString()} movies · ${d.stats.scenes.toLocaleString()} passages · ${semText}${ctxText}`;
+    }).catch(() => {
+      document.querySelector('#library').textContent = 'Unable to connect to the local search server.';
+    });
+
+    function renderMemoryLens(qc) {
+      memoryLens.replaceChildren();
+      if (!qc || (!qc.is_decomposed && !qc.temporal_label && !(qc.matched_movies?.length))) {
+        memoryLens.hidden = true;
+        return;
+      }
+      const header = node('div', '', 'lens-header');
+      header.append(node('span', 'Memory Lens · Contextual Understanding', 'lens-title'));
+      memoryLens.append(header);
+
+      if (qc.is_decomposed || qc.temporal_label) {
+        const split = node('div', '', 'lens-split');
+        if (qc.is_decomposed && qc.global_context) {
+          const gBox = node('div', '', 'lens-box');
+          gBox.append(node('strong', 'Global Film Setup / Premise'), node('span', qc.global_context));
+          split.append(gBox);
+        }
+        if (qc.is_decomposed && qc.scene_target) {
+          const sBox = node('div', '', 'lens-box');
+          sBox.append(node('strong', 'Target Scene / Dialogue Clue'), node('span', qc.scene_target));
+          split.append(sBox);
+        }
+        if (qc.temporal_label) {
+          const tBox = node('div', '', 'lens-box');
+          tBox.append(node('strong', 'Narrative Position'), node('span', qc.temporal_label));
+          split.append(tBox);
+        }
+        memoryLens.append(split);
+      }
+
+      if (qc.matched_movies?.length) {
+        memoryLens.append(node('div', 'Candidate Film Worlds (click to focus inside film)', 'worlds-label'));
+        const strip = node('div', '', 'worlds-strip');
+        for (const m of qc.matched_movies) {
+          const card = node('button', '', 'world-card');
+          card.type = 'button';
+          const top = node('div', '', 'world-card-top');
+          top.append(
+            node('span', m.title),
+            node('span', `${m.year || ''}${m.rating ? ' · ★ ' + Number(m.rating).toFixed(1) : ''}`, 'world-card-meta')
+          );
+          card.append(top);
+          if (m.premise) card.append(node('div', m.premise, 'world-card-desc'));
+          card.onclick = () => {
+            setMovieFilter(m.movie_id, m.title, m.year);
+            form.requestSubmit();
+          };
+          strip.append(card);
+        }
+        memoryLens.append(strip);
+      }
+      memoryLens.hidden = false;
+    }
+
+    function buildHighlightedDialogue(text, rawQuery) {
+      const container = document.createElement('blockquote');
+      const words = (rawQuery || '').toLowerCase().match(/[a-z0-9]{3,}/g) || [];
+      const terms = [...new Set(words.filter(w => !STOP_HIGHLIGHT.has(w)))].slice(0, 14);
+      if (!terms.length || !text) {
+        container.textContent = text || '';
+        return container;
+      }
+      const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+      const regex = new RegExp(`(\\b(?:${escaped.join('|')})[a-z0-9']*)`, 'gi');
+      let lastIndex = 0;
+      let match;
+      while ((match = regex.exec(text)) !== null) {
+        if (match.index > lastIndex) {
+          container.append(document.createTextNode(text.slice(lastIndex, match.index)));
+        }
+        container.append(node('mark', match[0]));
+        lastIndex = regex.lastIndex;
+      }
+      if (lastIndex < text.length) {
+        container.append(document.createTextNode(text.slice(lastIndex)));
+      }
+      return container;
+    }
+
+    async function loadSceneTimeline(sceneId, container) {
+      container.replaceChildren(node('small', 'Loading surrounding scenes…'));
+      try {
+        const res = await fetch('/api/scene?' + new URLSearchParams({ id: sceneId, neighbors: '1' }));
+        if (!res.ok) throw Error();
+        const data = await res.json();
+        const box = node('div', '', 'timeline-box');
+        for (const item of data.window || []) {
+          const block = node('div', '', 'timeline-item' + (item.is_target ? ' current' : ''));
+          const head = node('div', '', 'timeline-head');
+          head.append(
+            node('span', item.is_target ? 'Matched passage' : 'Adjacent passage'),
+            node('span', `${item.start_label} – ${item.end_label}`)
+          );
+          block.append(head);
+          if (item.summary) block.append(node('div', item.summary, 'note'));
+          block.append(node('div', item.dialogue.slice(0, 420) + (item.dialogue.length > 420 ? '…' : ''), 'timeline-text'));
+          box.append(block);
+        }
+        container.replaceChildren(box);
+      } catch {
+        container.replaceChildren(node('small', 'Could not load surrounding timeline context.'));
+      }
+    }
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (activeAbort) activeAbort.abort();
+      const controller = new AbortController();
+      activeAbort = controller;
+
+      button.disabled = true;
+      button.textContent = 'Searching…';
+      memoryLens.hidden = true;
+      showSkeletons();
+      document.querySelector('#progress').hidden = false;
+      results.setAttribute('aria-busy', 'true');
+      state.classList.add('loading');
+      state.textContent = 'Connecting global film context & scene dialogue…';
+
+      const params = new URLSearchParams(new FormData(form));
+      if (!params.get('movie')?.trim()) params.delete('movie');
+      const submittedQuery = queryInput.value;
+
+      try {
+        const response = await fetch('/api/search?' + params, { signal: controller.signal });
+        let data;
+        try {
+          data = await response.json();
+        } catch {
+          throw Error('The search server could not complete this request. Please try again.');
+        }
+        if (!response.ok) throw Error(data.error || 'Search failed. Please try again.');
+
+        results.replaceChildren();
+        refineBar.hidden = false;
+        renderMemoryLens(data.query_context);
+
+        const highlightQuery = data.query_context?.scene_target || submittedQuery;
+        state.textContent = data.message + (data.elapsed_ms ? ` (${(data.elapsed_ms / 1000).toFixed(2)}s)` : '');
+        if (!data.results.length) {
+          results.append(node('p', data.message || 'No supported match yet. Try another detail, a shorter quote, or a specific movie.', 'empty'));
+          return;
+        }
+
+        const heading = node('div', '', 'results-head');
+        heading.append(node('h2', 'Your memory, in focus.'), node('span', `${data.results.length} matching passages`));
+        results.append(heading);
+        const grid = node('div', '', 'result-grid');
+        results.append(grid);
+
+        data.results.forEach((r, index) => {
+          const card = node('article', '');
+          const top = node('div', '', 'card-top');
+          const body = node('div', '', 'card-content');
+
+          const badgeCls = 'match-badge' + (r.match === 'exact_quote' ? ' exact' : '');
+          top.append(
+            node('span', `SCENE ${String(index + 1).padStart(2, '0')}`, 'rank'),
+            node('span', r.match.replaceAll('_', ' '), badgeCls)
+          );
+
+          const titleRow = node('div', '', 'title-row');
+          titleRow.append(node('h3', r.title));
+          const metaParts = [];
+          if (r.year) metaParts.push(String(r.year));
+          if (r.rating) metaParts.push('★ ' + Number(r.rating).toFixed(1));
+          if (metaParts.length) titleRow.append(node('span', metaParts.join(' · '), 'movie-submeta'));
+          body.append(titleRow);
+
+          const timeBar = node('div', '', 'time-bar');
+          const timeText = `${r.start_label} – ${r.end_label}`;
+          timeBar.append(node('span', timeText, 'time'));
+
+          const copyBtn = node('button', 'Copy time', 'mini-action');
+          copyBtn.type = 'button';
+          copyBtn.onclick = () => {
+            navigator.clipboard?.writeText(`${r.title} (${timeText})`);
+            copyBtn.textContent = 'Copied ✓';
+            setTimeout(() => { copyBtn.textContent = 'Copy time'; }, 1400);
+          };
+          timeBar.append(copyBtn);
+
+          const narrowBtn = node('button', 'Filter film', 'mini-action');
+          narrowBtn.type = 'button';
+          narrowBtn.onclick = () => {
+            setMovieFilter(r.movie_id, r.title, r.year);
+            form.requestSubmit();
+          };
+          timeBar.append(narrowBtn);
+
+          if (/^tt\d+$/.test(r.movie_id)) {
+            const imdb = node('a', 'IMDb ↗', 'mini-action');
+            imdb.href = 'https://www.imdb.com/title/' + r.movie_id + '/';
+            imdb.target = '_blank';
+            imdb.rel = 'noopener noreferrer';
+            timeBar.append(imdb);
+          }
+          body.append(timeBar);
+
+          // Film Storyboard Timeline Bar
+          if (typeof r.progress === 'number') {
+            const pct = Math.max(1, Math.min(99, Math.round(r.progress * 100)));
+            const arcWrap = node('div', '', 'arc-track-wrap');
+            const track = node('div', '', 'arc-track');
+            const fill = node('div', '', 'arc-fill');
+            fill.style.width = pct + '%';
+            const dot = node('div', '', 'arc-dot');
+            dot.style.left = pct + '%';
+            track.append(fill, dot);
+            arcWrap.append(track, node('span', `${r.act_label || 'Scene'} · ${pct}% into film`, 'arc-label'));
+            body.append(arcWrap);
+          }
+
+          if (r.why_matched) {
+            body.append(node('div', r.why_matched, 'why-line'));
+          }
+
+          if (r.evidence_channels?.length) {
+            const pills = node('div', '', 'evidence-pills');
+            for (const ch of r.evidence_channels.slice(0, 4)) {
+              if (channelLabels[ch]) pills.append(node('span', channelLabels[ch], 'ev-pill'));
+            }
+            if (pills.childNodes.length) body.append(pills);
+          }
+
+          if (r.prev_beat) {
+            const prev = node('p', '', 'prev-beat');
+            prev.append(node('strong', 'Earlier beat: '), document.createTextNode(r.prev_beat));
+            body.append(prev);
+          }
+
+          body.append(node('p', r.summary || r.dialogue, 'summary excerpt'));
+
+          const dialogue = node('details', '', 'dialogue-details');
+          dialogue.append(node('summary', 'Read the dialogue'), buildHighlightedDialogue(r.dialogue, highlightQuery));
+          const subMeta = `${r.movie_id} · ${r.timestamp_precision === 'subtitle_lines' ? 'Subtitle-line timing' : 'Passage timing'}${r.relationship ? ' · ' + r.relationship : ''}`;
+          dialogue.append(node('small', subMeta));
+          body.append(dialogue);
+
+          if (r.movie_premise) {
+            const worldDetails = node('details', '', 'world-details');
+            worldDetails.append(node('summary', 'Global film context & characters'));
+            if (r.movie_characters) worldDetails.append(node('small', 'Cast & dynamics: ' + r.movie_characters));
+            worldDetails.append(node('p', r.movie_premise, 'summary'));
+            body.append(worldDetails);
+          }
+
+          const ctxDetails = node('details', '', 'context-details');
+          const ctxSummary = node('summary', 'Timeline context (±1 scene)');
+          const ctxHolder = node('div', '');
+          ctxDetails.append(ctxSummary, ctxHolder);
+          let loadedCtx = false;
+          ctxDetails.addEventListener('toggle', () => {
+            if (ctxDetails.open && !loadedCtx) {
+              loadedCtx = true;
+              loadSceneTimeline(r.scene_id, ctxHolder);
+            }
+          });
+          body.append(ctxDetails);
+
+          if (r.plot_excerpt) {
+            const details = node('details', '', 'plot-details');
+            const link = node('a', 'Wikipedia source ↗');
+            link.href = r.plot_source_url;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            details.append(node('summary', 'Related plot context'), node('p', r.plot_excerpt, 'summary'), link);
+            body.append(details);
+          }
+
+          for (const flag of r.coverage_flags || []) {
+            body.append(node('p', flag, 'note'));
+          }
+
+          card.append(top, body);
+          grid.append(card);
+          loadArtwork(r, card);
+        });
+
+        if (data.results.some(r => r.plot_excerpt)) {
+          const source = node('p', 'Plot context: ', 'note');
+          const corpus = node('a', 'CMU Movie Summary Corpus');
+          const license = node('a', 'CC BY-SA');
+          corpus.href = 'https://www.cs.cmu.edu/~ark/personas/';
+          corpus.target = '_blank';
+          corpus.rel = 'noopener noreferrer';
+          license.href = 'https://creativecommons.org/licenses/by-sa/3.0/us/';
+          license.target = '_blank';
+          license.rel = 'noopener noreferrer';
+          source.append(corpus, document.createTextNode(' by David Bamman, Brendan O’Connor, and Noah Smith, based on Wikipedia; '), license, document.createTextNode('. Plot context does not verify a scene’s timing.'));
+          results.append(source);
+        }
+      } catch (error) {
+        if (error.name === 'AbortError') return;
+        results.replaceChildren();
+        state.textContent = error.message;
+      } finally {
+        if (activeAbort === controller) {
+          button.disabled = false;
+          button.textContent = 'Find the scene →';
+          document.querySelector('#progress').hidden = true;
+          results.setAttribute('aria-busy', 'false');
+          state.classList.remove('loading');
+        }
+      }
+    });
+
+    document.querySelector('#how-button').onclick = () => document.querySelector('#how-dialog').showModal();
+    document.querySelectorAll('[data-mode]').forEach(el => {
+      el.onclick = () => setMode(el.dataset.mode);
+    });
+    document.querySelectorAll('[data-sample]').forEach(chip => {
+      chip.onclick = () => {
+        queryInput.value = chip.dataset.sample;
+        setMode(chip.dataset.sampleMode || 'auto');
+        form.requestSubmit();
+      };
+    });
+
+    function showSkeletons() {
+      const grid = node('div', '', 'result-grid');
+      grid.setAttribute('aria-hidden', 'true');
+      for (let i = 0; i < 4; i++) {
+        const card = node('article', '', 'skeleton');
+        card.append(node('div', '', 'skeleton-picture'));
+        for (const cls of ['bone title', 'bone short', 'bone', 'bone', 'bone short']) {
+          card.append(node('div', '', cls));
+        }
+        grid.append(card);
+      }
+      results.replaceChildren(grid);
+    }
+
+    async function loadArtwork(r, card) {
+      if (!artworkEnabled) return;
+      try {
+        if (!artworkCache.has(r.movie_id)) {
+          artworkCache.set(
+            r.movie_id,
+            fetch('/api/artwork?' + new URLSearchParams({ movie: r.movie_id }))
+              .then(res => (res.ok ? res.json() : null))
+              .catch(() => null)
+          );
+        }
+        const art = await artworkCache.get(r.movie_id);
+        if (!art?.available || !card.isConnected) return;
+        const url = new URL(art.url);
+        if (url.protocol !== 'https:' || url.hostname !== 'image.tmdb.org') return;
+        const image = node('img', '', 'movie-backdrop');
+        image.alt = '';
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.onload = () => {
+          card.classList.add('has-artwork');
+          document.querySelector('#artwork-credits').hidden = false;
+        };
+        image.onerror = () => image.remove();
+        image.src = url.href;
+        card.prepend(image);
+        const link = node('a', 'Movie artwork · TMDB ↗', 'art-source');
+        const source = new URL(art.source_url);
+        if (source.protocol === 'https:' && source.hostname === 'www.themoviedb.org') {
+          link.href = source.href;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          card.querySelector('.card-content').append(link);
+        }
+      } catch {}
+    }
+  </script>
+</body>
+</html>

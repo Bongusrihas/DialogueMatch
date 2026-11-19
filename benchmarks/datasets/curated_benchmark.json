@@ -1,0 +1,191 @@
+[
+  {
+    "id": "q-01",
+    "query": "do not go gentle into that good night",
+    "movie_id": "tt0816692",
+    "title": "Interstellar",
+    "category": "exact_quote",
+    "mode": "quote",
+    "spans": [[2952.0, 2956.0], [5076.0, 5082.0], [6967.0, 6973.0]]
+  },
+  {
+    "id": "q-02",
+    "query": "why so serious",
+    "movie_id": "tt0468569",
+    "title": "The Dark Knight",
+    "category": "exact_quote",
+    "mode": "quote",
+    "spans": [[1839.0, 1846.0], [1866.0, 1868.0]]
+  },
+  {
+    "id": "q-03",
+    "query": "are you not entertained",
+    "movie_id": "tt0172495",
+    "title": "Gladiator",
+    "category": "exact_quote",
+    "mode": "quote",
+    "spans": [[4309.0, 4314.0]]
+  },
+  {
+    "id": "q-04",
+    "query": "not quite my tempo",
+    "movie_id": "tt2582802",
+    "title": "Whiplash",
+    "category": "exact_quote",
+    "mode": "quote",
+    "spans": [[1551.0, 1554.0], [2937.0, 2940.0]]
+  },
+  {
+    "id": "q-05",
+    "query": "dream within a dream",
+    "movie_id": "tt1375666",
+    "title": "Inception",
+    "category": "exact_quote",
+    "mode": "quote",
+    "spans": [[802.0, 805.0], [2444.0, 2448.0], [3071.0, 3074.0]]
+  },
+  {
+    "id": "q-06",
+    "query": "are you not entertainned",
+    "movie_id": "tt0172495",
+    "title": "Gladiator",
+    "category": "typo_quote",
+    "mode": "quote",
+    "spans": [[4309.0, 4314.0]]
+  },
+  {
+    "id": "q-07",
+    "query": "not quite my temppo",
+    "movie_id": "tt2582802",
+    "title": "Whiplash",
+    "category": "typo_quote",
+    "mode": "quote",
+    "spans": [[1551.0, 1554.0], [2937.0, 2940.0]]
+  },
+  {
+    "id": "q-08",
+    "query": "why so seriuos",
+    "movie_id": "tt0468569",
+    "title": "The Dark Knight",
+    "category": "typo_quote",
+    "mode": "quote",
+    "spans": [[1839.0, 1846.0], [1866.0, 1868.0]]
+  },
+  {
+    "id": "q-09",
+    "query": "Messages span 23 years. Play from the beginning.",
+    "movie_id": "tt0816692",
+    "title": "Interstellar",
+    "scene_id": "tt0816692_77",
+    "category": "exact_quote",
+    "mode": "quote",
+    "spans": [[4675.0, 4830.0]]
+  },
+  {
+    "id": "q-10",
+    "query": "I am going to make this pencil disappear",
+    "movie_id": "tt0468569",
+    "title": "The Dark Knight",
+    "scene_id": "tt0468569_23",
+    "category": "exact_quote",
+    "mode": "quote",
+    "spans": [[1397.0, 1528.0]]
+  },
+  {
+    "id": "q-11",
+    "query": "Were you rushing or were you dragging?",
+    "movie_id": "tt2582802",
+    "title": "Whiplash",
+    "scene_id": "tt2582802_13",
+    "category": "exact_quote",
+    "mode": "quote",
+    "spans": [[1638.0, 1733.0]]
+  },
+  {
+    "id": "q-12",
+    "query": "What we do in life echoes in eternity",
+    "movie_id": "tt0172495",
+    "title": "Gladiator",
+    "category": "exact_quote",
+    "mode": "quote",
+    "spans": [[400.0, 600.0]]
+  },
+  {
+    "id": "q-13",
+    "query": "an astronaut weeps as he watches 23 years of recorded video messages from his growing children",
+    "movie_id": "tt0816692",
+    "title": "Interstellar",
+    "scene_id": "tt0816692_77",
+    "category": "semantic_scene",
+    "mode": "scene",
+    "spans": [[4675.0, 4830.0]]
+  },
+  {
+    "id": "q-14",
+    "query": "villain slams a mobster head down into a table onto a pencil during a meeting",
+    "movie_id": "tt0468569",
+    "title": "The Dark Knight",
+    "scene_id": "tt0468569_23",
+    "category": "semantic_scene",
+    "mode": "scene",
+    "spans": [[1397.0, 1528.0]]
+  },
+  {
+    "id": "q-15",
+    "query": "abusive music conductor hurls a chair at a student jazz drummer because of off tempo timing",
+    "movie_id": "tt2582802",
+    "title": "Whiplash",
+    "scene_id": "tt2582802_13",
+    "category": "semantic_scene",
+    "mode": "scene",
+    "spans": [[1638.0, 1733.0]]
+  },
+  {
+    "id": "q-16",
+    "query": "Roman general turns gladiator and defeats warriors in an arena then shouts at the spectating crowd",
+    "movie_id": "tt0172495",
+    "title": "Gladiator",
+    "category": "semantic_scene",
+    "mode": "scene",
+    "spans": [[4300.0, 4325.0]]
+  },
+  {
+    "id": "q-17",
+    "query": "explaining how dreams have layers and time passes much slower within each sub dream level",
+    "movie_id": "tt1375666",
+    "title": "Inception",
+    "category": "semantic_scene",
+    "mode": "scene",
+    "spans": [[2400.0, 3100.0]]
+  },
+  {
+    "id": "q-18",
+    "query": "I cannot recall the title, but there is this scene where a pilot returns from a water planet where an hour was seven years, and he sits in front of a monitor crying while watching his son and daughter grow up without him",
+    "movie_id": "tt0816692",
+    "title": "Interstellar",
+    "scene_id": "tt0816692_77",
+    "category": "narrative_tot",
+    "mode": "auto",
+    "spans": [[4675.0, 4830.0]]
+  },
+  {
+    "id": "q-19",
+    "query": "The movie starts with a bank robbery where clowns kill each other, and later a man dressed as a clown interrupts a mob gathering in a kitchen and offers to kill the superhero for half their money",
+    "movie_id": "tt0468569",
+    "title": "The Dark Knight",
+    "scene_id": "tt0468569_23",
+    "category": "narrative_tot",
+    "mode": "auto",
+    "spans": [[1397.0, 1528.0]]
+  },
+  {
+    "id": "q-20",
+    "query": "It begins with an ambitious young drummer practicing late at night at a prestigious music conservatory, and in one intense classroom rehearsal the cruel instructor slaps him across the face counting tempo",
+    "movie_id": "tt2582802",
+    "title": "Whiplash",
+    "scene_id": "tt2582802_13",
+    "category": "narrative_tot",
+    "mode": "auto",
+    "spans": [[1638.0, 1733.0]]
+  }
+]
