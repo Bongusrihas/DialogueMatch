@@ -1,6 +1,7 @@
 # DialogueMatch
 
-[![CI](https://github.com/user/DialogueMatch/actions/workflows/ci.yml/badge.svg)](https://github.com/user/DialogueMatch/actions/workflows/ci.yml)
+[![CI](https://github.com/Bongusrihas/DialogueMatch/actions/workflows/ci.yml/badge.svg)](https://github.com/Bongusrihas/DialogueMatch/actions/workflows/ci.yml)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-DialogueMatch-ffcc00.svg)](https://huggingface.co/datasets/nithingodugu/DialogueMatch)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Retrieval](https://img.shields.io/badge/Retrieval-Hybrid%20RRF%20%2B%20Cross--Encoder-orange.svg)]()
@@ -65,88 +66,129 @@ Run reproducible benchmarks locally via `python -m dialoguematch benchmark --sam
 
 ---
 
-## Quick Start (Zero-Download Sample Mode)
+## Step-by-Step Setup & Configuration Guide
 
-Anyone can clone and test the entire engine in seconds without downloading gigabytes of neural weights:
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Bongusrihas/DialogueMatch.git
+cd DialogueMatch
+```
+
+### 2. Environment Setup & Installation
+```bash
+# Create virtual environment
+python -m venv .venv
+
+# Activate on Windows (PowerShell):
+.venv\Scripts\Activate.ps1
+# Or on Linux / macOS:
+# source .venv/bin/activate
+
+# Install dependencies and editable package
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+pip install -e .
+```
+
+### 3. Run in Instant Zero-Download Demo Mode (< 4MB)
+The repository includes a pre-indexed sample corpus (`data/sample/dialoguematch.sample.sqlite`) covering 5 iconic movies (*Interstellar, The Dark Knight, Gladiator, Whiplash, Inception*) with 618 scene passages:
 
 ```powershell
-# 1. Clone & install
-git clone https://github.com/user/DialogueMatch.git
-cd DialogueMatch
-python -m pip install -r requirements.txt
-pip install -e .
-
-# 2. Run instant search on sample corpus (Interstellar, Dark Knight, Gladiator, Whiplash, Inception)
+# Search from terminal
 python -m dialoguematch search "Messages span 23 years" --sample --pretty
 python -m dialoguematch search "why so serious" --sample --pretty
 python -m dialoguematch search "not quite my tempo" --sample --pretty
 
-# 3. Launch local Cinema UI
+# Start local Cinema UI
 python -m dialoguematch serve --sample
 ```
 Open **http://127.0.0.1:8765** in your browser.
 
 ---
 
-## Large Index & Corpus Distribution Strategy
+## Full 2,000-Movie Corpus (Hugging Face Integration)
 
-The full DialogueMatch corpus covers **2,000 films**, **178,175 scenes**, and **87,582 chronological narrative windows** (~1.6GB SQLite corpus + multi-gigabyte FAISS embedding indexes).
+The production DialogueMatch library indexes **2,000 movies**, **178,175 scenes**, and **87,582 chronological narrative windows** (~1.6GB SQLite database + multi-index neural vectors).
 
-To keep the git repository lightweight (<15MB), large binary assets are managed via a multi-tiered architecture:
+All production data assets are hosted on Hugging Face Datasets at:  
+👉 **[huggingface.co/datasets/nithingodugu/DialogueMatch](https://huggingface.co/datasets/nithingodugu/DialogueMatch)**
 
-1. **Lightweight Sample Corpus (`data/sample/dialoguematch.sample.sqlite`)**:
-   - Bundled directly in git (`~3.7MB`). Covers 5 iconic movies and 618 scenes. Powers automated CI, unit tests, and instant offline evaluation.
-2. **Cloud Storage / Hugging Face Releases**:
-   - Full 2,000-movie SQLite databases and FAISS indexes are hosted on [Hugging Face Datasets](https://huggingface.co/datasets) with unlimited bandwidth and direct checksum downloads.
-3. **Automated Downloader CLI**:
-   ```powershell
-   # Download full 2,000-movie corpus and calibrated neural vectors
-   python -m dialoguematch download --target full
-   ```
-4. **Reproducible Local Pipeline**:
-   - Users with their own `.srt` files and movie metadata can build the SQLite corpus from scratch:
-   ```powershell
-   python -m dialoguematch build
-   python -m dialoguematch build-gap
-   python -m dialoguematch build-plots
-   python -m dialoguematch build-context
-   ```
+### Download Production Assets Locally
+To download the full 2,000-movie corpus and neural vectors:
+```powershell
+python -m dialoguematch download --target full
+```
+Or run the dedicated script:
+```powershell
+python scripts/download_assets.py --target full
+```
+
+### Verify Engine Health (`doctor`)
+Once assets are downloaded, verify the full hybrid stack:
+```powershell
+python -m dialoguematch doctor
+```
+Expected output:
+```json
+{
+  "stats": {
+    "movies": 2000,
+    "scenes": 178175,
+    "sequences": 87582
+  },
+  "semantic": true,
+  "semantic_mode": "multi_index_ensemble",
+  "reranker": true,
+  "plot_search": true,
+  "global_context": true
+}
+```
 
 ---
 
-## CLI Reference
+## Optional: Movie Poster & Backdrop Artwork (TMDB)
 
-### 1. Verification & Diagnostics (`doctor`)
-```powershell
-python -m dialoguematch doctor --sample
-python -m dialoguematch doctor
-```
+DialogueMatch dynamically resolves high-resolution backdrops and posters using exact IMDb IDs (`tt0816692`).
+To enable artwork:
+1. Obtain a free API Read Access Token or API Key from [The Movie Database (TMDB)](https://www.themoviedb.org/settings/api).
+2. Set it in your environment or create `data/artwork.local.json` (strictly gitignored):
+   ```json
+   {
+     "read_access_token": "YOUR_TMDB_READ_ACCESS_TOKEN",
+     "api_key": "YOUR_TMDB_API_KEY"
+   }
+   ```
+Credentials remain strictly server-side and are never committed to git.
 
-### 2. Search from the Terminal
+---
+
+## CLI Reference & Evaluation
+
+### 1. Terminal Search
 ```powershell
-# Exact phrase search with subtitle millisecond timestamps
+# Exact quote recovery with millisecond subtitle bounds
 python -m dialoguematch search "Messages span 23 years" --pretty
 
-# Typo and misheard quote tolerance
+# Typo tolerance
 python -m dialoguematch search "are you not entertainned" --pretty
 
-# Abstract semantic scene memory
+# Conceptual semantic scene memory
 python -m dialoguematch search "a father watches recordings of his daughter growing old across decades" --pretty
 
-# Scoped search to a specific film
+# Movie-scoped query
 python -m dialoguematch search "orbital navigation fuel" --movie "Interstellar" --pretty
 ```
 
-### 3. Automated Benchmarking
+### 2. Run Benchmarks
 ```powershell
-# Run benchmark on sample corpus
+# Quick ablation on sample dataset
 python -m dialoguematch benchmark --sample
 
-# Run benchmark on full 2,000-movie corpus
+# Full evaluation across 2,000 movies
 python -m dialoguematch benchmark
 ```
 
-### 4. Automated Test Suite
+### 3. Run Automated Tests
 ```powershell
 python -m pytest tests -v
 # or
@@ -170,3 +212,25 @@ python -m dialoguematch test
 - **Boundary-Bridge Phrase Matching**: Handles cross-subtitle sentence splits where standard tokenizers fail by concatenating contiguous `.srt` blocks.
 - **Memory-Mapped FAISS (`IO_FLAG_MMAP`)**: Enables instant engine boot without loading gigabytes of vectors into active memory.
 - **Dual-View Cross-Encoder Scoring**: Passes both synthesized high-level scene beats and raw conversation windows through the cross-encoder, overcoming truncation limits.
+
+---
+
+## Contributors
+
+- **Nithin Godugu** ([@nithingodugu](https://github.com/nithingodugu)) — Core search engine architecture, multi-index neural ensemble, query decomposition, benchmark harness, and Hugging Face distribution.
+- **Srihas Bongu** ([@Bongusrihas](https://github.com/Bongusrihas)) — Data pipeline, subtitle parsing and normalization, cinema web interface UI, and project coordination.
+
+---
+
+## Citation & License
+
+```bibtex
+@software{dialoguematch2026,
+  author = {Godugu, Nithin and Bongu, Srihas},
+  title = {DialogueMatch: Evidence-Backed Hybrid Movie Scene & Dialogue Retrieval Engine},
+  year = {2026},
+  url = {https://github.com/Bongusrihas/DialogueMatch}
+}
+```
+
+Distributed under the [MIT License](LICENSE).

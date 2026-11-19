@@ -9,6 +9,11 @@ description = "Local, evidence-backed movie dialogue and scene retrieval engine"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
+authors = [
+    { name = "Nithin Godugu" },
+    { name = "Srihas Bongu" },
+]
+urls = { Repository = "https://github.com/Bongusrihas/DialogueMatch" }
 dependencies = [
     "numpy>=1.26,<3",
     "sentence-transformers>=3,<6",

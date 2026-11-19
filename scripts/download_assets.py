@@ -1,91 +1,84 @@
 """Asset downloader utility for DialogueMatch.
 
-Downloads pre-trained FAISS indexes, embeddings, and full SQLite databases from
-remote storage (e.g. Hugging Face Hub, GitHub Releases, or S3).
+Downloads pre-trained embeddings, context dossiers, and the full 2,000-movie SQLite database
+directly from the official Hugging Face repository (nithingodugu/DialogueMatch).
 """
 import argparse
-import hashlib
 from pathlib import Path
+import shutil
 import sys
-import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
+HF_REPO = "nithingodugu/DialogueMatch"
 
-# Remote registry mapping filename to remote URL and expected SHA-256 (sample/template)
-REMOTE_REGISTRY = {
-    "dialoguematch.sample.sqlite": {
-        "url": "https://raw.githubusercontent.com/user/DialogueMatch/main/data/sample/dialoguematch.sample.sqlite",
-        "description": "5-movie lightweight demo database (~3.7MB)",
-        "dest": DATA_DIR / "sample/dialoguematch.sample.sqlite",
-        "sha256": None,
-    },
-    "dialoguematch.gap.npy": {
-        "url": "https://huggingface.co/datasets/dialoguematch/corpus-v2/resolve/main/dialoguematch.gap.npy",
-        "description": "Calibrated MiniLM gap vectors for 74 subtitle-recovered movies (~21MB)",
-        "dest": DATA_DIR / "dialoguematch.gap.npy",
-        "sha256": None,
-    },
-    "dialoguematch.movies.npy": {
-        "url": "https://huggingface.co/datasets/dialoguematch/corpus-v2/resolve/main/dialoguematch.movies.npy",
-        "description": "3-view narrative film vectors across 2,000 movies (~9MB)",
-        "dest": DATA_DIR / "dialoguematch.movies.npy",
-        "sha256": None,
-    },
-    "dialoguematch.sqlite": {
-        "url": "https://huggingface.co/datasets/dialoguematch/corpus-v2/resolve/main/dialoguematch.sqlite",
-        "description": "Full 2,000-movie enriched SQLite corpus with FTS5 search (~1.6GB)",
-        "dest": DATA_DIR / "dialoguematch.sqlite",
-        "sha256": None,
-    },
-}
+DATASET_FILES = [
+    "data/dialoguematch.gap.json",
+    "data/dialoguematch.gap.npy",
+    "data/dialoguematch.movies.json",
+    "data/dialoguematch.movies.npy",
+    "data/dialoguematch.coverage.json",
+    "data/dialoguematch.vectors.json",
+    "data/dialoguematch.plots.sqlite",
+    "data/dialoguematch.context.sqlite",
+    "data/dialoguematch.sqlite",
+]
 
 
-def download_file(url: str, dest_path: Path, description: str = ""):
-    dest_path.parent.mkdir(parents=True, exist_ok=True)
-    print(f"Downloading {dest_path.name} ({description})...")
-    print(f"  Source: {url}")
-    print(f"  Target: {dest_path}")
-
-    def reporthook(block_num, block_size, total_size):
-        if total_size > 0:
-            downloaded = block_num * block_size
-            percent = min(100.0, downloaded * 100.0 / total_size)
-            mb = downloaded / (1024 * 1024)
-            total_mb = total_size / (1024 * 1024)
-            sys.stdout.write(f"\r  Progress: {mb:.1f} MB / {total_mb:.1f} MB ({percent:.1f}%)")
-            sys.stdout.flush()
-
+def download_assets(target: str = "full", repo_id: str = HF_REPO):
     try:
-        urllib.request.urlretrieve(url, dest_path, reporthook=reporthook)
-        print("\n  [Success] Download complete.")
-    except Exception as e:
-        print(f"\n  [Error] Failed to download from {url}: {e}")
-        print("  If using a custom Hugging Face repo or private mirror, set the URL or token.")
+        from huggingface_hub import hf_hub_download
+    except ImportError:
+        print("[Error] huggingface_hub is required. Install via: pip install huggingface_hub")
+        return
 
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-def download_assets(target: str = "sample"):
     if target == "sample":
-        item = REMOTE_REGISTRY["dialoguematch.sample.sqlite"]
-        if item["dest"].is_file():
-            print(f"[Info] Sample corpus already exists at {item['dest']}")
+        sample_path = DATA_DIR / "sample/dialoguematch.sample.sqlite"
+        if sample_path.is_file():
+            print(f"[Info] Sample corpus already present: {sample_path}")
             return
-        download_file(item["url"], item["dest"], item["description"])
-    elif target == "full":
-        for name, item in REMOTE_REGISTRY.items():
-            if item["dest"].is_file():
-                print(f"[Info] {name} already exists. Skipping.")
-                continue
-            download_file(item["url"], item["dest"], item["description"])
-    else:
-        print(f"Unknown target: {target}. Choices: sample, full")
+        print(f"[Info] Generating local sample corpus...")
+        from scripts.create_sample_corpus import create_sample_corpus
+        create_sample_corpus()
+        return
+
+    print(f"================================================================================")
+    print(f"             DOWNLOADING DIALOGUEMATCH ASSETS FROM HUGGING FACE")
+    print(f"================================================================================")
+    print(f"Repository: https://huggingface.co/datasets/{repo_id}")
+    print(f"Destination: {DATA_DIR}")
+    print(f"================================================================================\n")
+
+    for file_rel in DATASET_FILES:
+        dest_file = ROOT / file_rel
+        if dest_file.is_file() and dest_file.stat().st_size > 0:
+            print(f"[Exists] {file_rel} already exists ({dest_file.stat().st_size / (1024*1024):.2f} MB). Skipping.")
+            continue
+
+        print(f"--> Downloading {file_rel} from {repo_id}...")
+        try:
+            downloaded = hf_hub_download(
+                repo_id=repo_id,
+                filename=file_rel,
+                repo_type="dataset",
+            )
+            dest_file.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(downloaded, dest_file)
+            print(f"    [Done] Saved to {dest_file}")
+        except Exception as e:
+            print(f"    [Warning] Could not download {file_rel}: {e}")
+
+    print("\n[Complete] Asset download finished. Run 'python -m dialoguematch doctor' to verify health.")
 
 
 def main():
     parser = argparse.ArgumentParser(description="Download DialogueMatch data assets and model indexes")
-    parser.add_argument("--target", choices=["sample", "full"], default="sample", help="Target assets to download")
+    parser.add_argument("--target", choices=["sample", "full"], default="full", help="Target assets to download")
+    parser.add_argument("--repo-id", default=HF_REPO, help="Hugging Face Dataset repo ID")
     args = parser.parse_args()
-    download_assets(args.target)
+    download_assets(args.target, args.repo_id)
 
 
 if __name__ == "__main__":
