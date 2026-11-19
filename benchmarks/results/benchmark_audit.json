@@ -1,130 +1,130 @@
 [
   {
     "config_name": "Baseline 1: Lexical Only (BM25/FTS5)",
-    "queries_total": 100,
-    "movie_hit1": 0.78,
-    "movie_hit5": 0.84,
-    "movie_hit10": 0.84,
-    "scene_hit1": 0.32,
-    "scene_hit5": 0.39,
-    "mrr10": 0.7647619047619049,
-    "ndcg10": 0.7838077136190497,
-    "latency_p50_ms": 31.615550002243253,
-    "latency_p95_ms": 177.22730000241427,
+    "queries_total": 420,
+    "movie_hit1": 0.6904761904761905,
+    "movie_hit5": 0.7666666666666667,
+    "movie_hit10": 0.7690476190476191,
+    "scene_hit1": 0.16904761904761906,
+    "scene_hit5": 0.2261904761904762,
+    "mrr10": 0.6875425170068028,
+    "ndcg10": 0.7079422045142283,
+    "latency_p50_ms": 33.47919999941951,
+    "latency_p95_ms": 166.21030000169412,
     "categories": {
       "exact_quote": {
-        "count": 25,
-        "movie_hit5": 0.72,
-        "target_hit5": 0.72,
-        "mrr10": 0.72,
-        "median_ms": 10.201000000961358
+        "count": 105,
+        "movie_hit5": 0.6095238095238096,
+        "target_hit5": 0.6095238095238096,
+        "mrr10": 0.6095238095238096,
+        "median_ms": 15.261999997164821
       },
       "typo_quote": {
-        "count": 25,
-        "movie_hit5": 0.64,
-        "target_hit5": 0.64,
-        "mrr10": 0.62,
-        "median_ms": 27.282899998681387
+        "count": 105,
+        "movie_hit5": 0.4857142857142857,
+        "target_hit5": 0.4857142857142857,
+        "mrr10": 0.48095238095238096,
+        "median_ms": 28.991299997869646
       },
       "semantic_scene": {
-        "count": 25,
-        "movie_hit5": 1.0,
-        "target_hit5": 1.0,
-        "mrr10": 0.88,
-        "median_ms": 41.598800002248026
+        "count": 105,
+        "movie_hit5": 0.9809523809523809,
+        "target_hit5": 0.9714285714285714,
+        "mrr10": 0.8018253968253968,
+        "median_ms": 46.62129999996978
       },
       "narrative_tot": {
-        "count": 25,
-        "movie_hit5": 1.0,
-        "target_hit5": 0.96,
-        "mrr10": 0.8390476190476189,
-        "median_ms": 89.50969999932568
+        "count": 105,
+        "movie_hit5": 0.9904761904761905,
+        "target_hit5": 0.9809523809523809,
+        "mrr10": 0.8578684807256236,
+        "median_ms": 71.02610000220011
       }
     }
   },
   {
     "config_name": "Baseline 2: Hybrid (Lexical + Dense RRF)",
-    "queries_total": 100,
-    "movie_hit1": 0.78,
-    "movie_hit5": 0.84,
-    "movie_hit10": 0.84,
-    "scene_hit1": 0.32,
-    "scene_hit5": 0.39,
-    "mrr10": 0.7647619047619049,
-    "ndcg10": 0.7838077136190497,
-    "latency_p50_ms": 34.9633999994694,
-    "latency_p95_ms": 177.41369999930612,
+    "queries_total": 420,
+    "movie_hit1": 0.6904761904761905,
+    "movie_hit5": 0.7666666666666667,
+    "movie_hit10": 0.7690476190476191,
+    "scene_hit1": 0.16904761904761906,
+    "scene_hit5": 0.2261904761904762,
+    "mrr10": 0.6875425170068028,
+    "ndcg10": 0.7079422045142283,
+    "latency_p50_ms": 36.12964999956603,
+    "latency_p95_ms": 175.76829999961774,
     "categories": {
       "exact_quote": {
-        "count": 25,
-        "movie_hit5": 0.72,
-        "target_hit5": 0.72,
-        "mrr10": 0.72,
-        "median_ms": 11.982299998635426
+        "count": 105,
+        "movie_hit5": 0.6095238095238096,
+        "target_hit5": 0.6095238095238096,
+        "mrr10": 0.6095238095238096,
+        "median_ms": 19.59069999793428
       },
       "typo_quote": {
-        "count": 25,
-        "movie_hit5": 0.64,
-        "target_hit5": 0.64,
-        "mrr10": 0.62,
-        "median_ms": 33.140499999717576
+        "count": 105,
+        "movie_hit5": 0.4857142857142857,
+        "target_hit5": 0.4857142857142857,
+        "mrr10": 0.48095238095238096,
+        "median_ms": 31.33950000119512
       },
       "semantic_scene": {
-        "count": 25,
-        "movie_hit5": 1.0,
-        "target_hit5": 1.0,
-        "mrr10": 0.88,
-        "median_ms": 45.22240000005695
+        "count": 105,
+        "movie_hit5": 0.9809523809523809,
+        "target_hit5": 0.9714285714285714,
+        "mrr10": 0.8018253968253968,
+        "median_ms": 50.84940000233473
       },
       "narrative_tot": {
-        "count": 25,
-        "movie_hit5": 1.0,
-        "target_hit5": 0.96,
-        "mrr10": 0.8390476190476189,
-        "median_ms": 100.43509999741218
+        "count": 105,
+        "movie_hit5": 0.9904761904761905,
+        "target_hit5": 0.9809523809523809,
+        "mrr10": 0.8578684807256236,
+        "median_ms": 67.58559999798308
       }
     }
   },
   {
     "config_name": "DialogueMatch Full (Hybrid + Cross-Encoder Rerank)",
-    "queries_total": 100,
-    "movie_hit1": 0.81,
-    "movie_hit5": 0.84,
-    "movie_hit10": 0.84,
-    "scene_hit1": 0.35,
-    "scene_hit5": 0.41,
-    "mrr10": 0.7923333333333334,
-    "ndcg10": 0.8042835438232635,
-    "latency_p50_ms": 449.6923999995488,
-    "latency_p95_ms": 1904.4733999980963,
+    "queries_total": 420,
+    "movie_hit1": 0.7285714285714285,
+    "movie_hit5": 0.7714285714285715,
+    "movie_hit10": 0.7714285714285715,
+    "scene_hit1": 0.19285714285714287,
+    "scene_hit5": 0.25,
+    "mrr10": 0.7145238095238096,
+    "ndcg10": 0.7288311201540759,
+    "latency_p50_ms": 310.4807500003517,
+    "latency_p95_ms": 1844.3072000009124,
     "categories": {
       "exact_quote": {
-        "count": 25,
-        "movie_hit5": 0.72,
-        "target_hit5": 0.72,
-        "mrr10": 0.72,
-        "median_ms": 9.819800001423573
+        "count": 105,
+        "movie_hit5": 0.6095238095238096,
+        "target_hit5": 0.6095238095238096,
+        "mrr10": 0.6095238095238096,
+        "median_ms": 12.871300001279451
       },
       "typo_quote": {
-        "count": 25,
-        "movie_hit5": 0.64,
-        "target_hit5": 0.64,
-        "mrr10": 0.62,
-        "median_ms": 26.90720000100555
+        "count": 105,
+        "movie_hit5": 0.4857142857142857,
+        "target_hit5": 0.4857142857142857,
+        "mrr10": 0.48095238095238096,
+        "median_ms": 27.780000000348082
       },
       "semantic_scene": {
-        "count": 25,
-        "movie_hit5": 1.0,
-        "target_hit5": 1.0,
-        "mrr10": 0.8893333333333334,
-        "median_ms": 1622.962400000688
+        "count": 105,
+        "movie_hit5": 0.9904761904761905,
+        "target_hit5": 0.9904761904761905,
+        "mrr10": 0.8657142857142857,
+        "median_ms": 1461.2162999983411
       },
       "narrative_tot": {
-        "count": 25,
+        "count": 105,
         "movie_hit5": 1.0,
         "target_hit5": 1.0,
-        "mrr10": 0.94,
-        "median_ms": 1680.3264999980456
+        "mrr10": 0.9019047619047618,
+        "median_ms": 1542.6743000025454
       }
     }
   }

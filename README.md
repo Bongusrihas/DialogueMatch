@@ -54,13 +54,13 @@ A naive retrieval project typically wraps an off-the-shelf vector database with 
 
 ### Benchmark Ablation Matrix (Audited)
 
-Evaluated across **100 balanced test queries** (25 exact quotes, 25 typo/misremembered quotes, 25 semantic scene descriptions, and 25 chronological multi-beat narratives). Run reproducible benchmarks locally via `python -m dialoguematch benchmark --sample`:
+Evaluated across **420 balanced test queries** (105 exact quotes, 105 typo/misremembered quotes, 105 semantic scene descriptions, and 105 chronological multi-beat narratives). Run reproducible benchmarks locally via `python -m dialoguematch benchmark --sample`:
 
 | Architecture Configuration | Movie Hit@5 | Scene/Span Hit@5 | MRR@10 | NDCG@10 | Latency (p50) | Latency (p95) |
 |---|---:|---:|---:|---:|---:|---:|
-| **Baseline 1: Lexical Only (BM25/FTS5)** | 84.0% | 39.0% | 0.765 | 0.784 | 31.6 ms | 177.2 ms |
-| **Baseline 2: Hybrid (Lexical + Dense RRF)** | 84.0% | 39.0% | 0.765 | 0.784 | 35.0 ms | 177.4 ms |
-| **DialogueMatch Full (Hybrid + Cross-Encoder Rerank)** | **84.0%** | **41.0%** | **0.792** | **0.804** | **449.7 ms** | **1904.5 ms** |
+| **Baseline 1: Lexical Only (BM25/FTS5)** | 76.7% | 22.6% | 0.688 | 0.708 | 33.5 ms | 166.2 ms |
+| **Baseline 2: Hybrid (Lexical + Dense RRF)** | 76.7% | 22.6% | 0.688 | 0.708 | 36.1 ms | 175.8 ms |
+| **DialogueMatch Full (Hybrid + Cross-Encoder Rerank)** | **77.1%** | **25.0%** | **0.715** | **0.729** | **310.5 ms** | **1844.3 ms** |
 
 *(Comprehensive audit report with breakdown by archetype available in [BENCHMARK_REPORT.md](BENCHMARK_REPORT.md).)*
 

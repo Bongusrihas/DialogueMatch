@@ -1,8 +1,8 @@
 # DialogueMatch Audited Benchmark Report
 
 **Corpus Evaluated**: `dialoguematch.sample.sqlite`  
-**Benchmark Dataset**: `100` curated test cases across 4 challenging archetypes  
-**Date Generated**: 2026-11-19 21:17:13  
+**Benchmark Dataset**: `420` curated test cases across 4 challenging archetypes  
+**Date Generated**: 2026-11-19 21:40:45  
 
 ## 1. Executive Summary & Verdict
 
@@ -19,9 +19,9 @@
 
 | Architecture Configuration | Movie Hit@5 | Scene/Span Hit@5 | MRR@10 | NDCG@10 | Latency (p50) | Latency (p95) |
 |---|---:|---:|---:|---:|---:|---:|
-| **Baseline 1: Lexical Only (BM25/FTS5)** | 84.0% | 39.0% | 0.765 | 0.784 | 31.6 ms | 177.2 ms |
-| **Baseline 2: Hybrid (Lexical + Dense RRF)** | 84.0% | 39.0% | 0.765 | 0.784 | 35.0 ms | 177.4 ms |
-| **DialogueMatch Full (Hybrid + Cross-Encoder Rerank)** | 84.0% | 41.0% | 0.792 | 0.804 | 449.7 ms | 1904.5 ms |
+| **Baseline 1: Lexical Only (BM25/FTS5)** | 76.7% | 22.6% | 0.688 | 0.708 | 33.5 ms | 166.2 ms |
+| **Baseline 2: Hybrid (Lexical + Dense RRF)** | 76.7% | 22.6% | 0.688 | 0.708 | 36.1 ms | 175.8 ms |
+| **DialogueMatch Full (Hybrid + Cross-Encoder Rerank)** | 77.1% | 25.0% | 0.715 | 0.729 | 310.5 ms | 1844.3 ms |
 
 ## 3. Query Category Breakdown
 
@@ -30,30 +30,30 @@ Performance by challenge archetype (Exact Quotes, Typos, Semantic Scenes, and Lo
 ### Archetype: `exact_quote`
 | Configuration | Cases | Hit@5 Accuracy | MRR@10 | Median Latency |
 |---|---:|---:|---:|---:|
-| Baseline 1: Lexical Only (BM25/FTS5) | 25 | 72.0% | 0.720 | 10.2 ms |
-| Baseline 2: Hybrid (Lexical + Dense RRF) | 25 | 72.0% | 0.720 | 12.0 ms |
-| DialogueMatch Full (Hybrid + Cross-Encoder Rerank) | 25 | 72.0% | 0.720 | 9.8 ms |
+| Baseline 1: Lexical Only (BM25/FTS5) | 105 | 61.0% | 0.610 | 15.3 ms |
+| Baseline 2: Hybrid (Lexical + Dense RRF) | 105 | 61.0% | 0.610 | 19.6 ms |
+| DialogueMatch Full (Hybrid + Cross-Encoder Rerank) | 105 | 61.0% | 0.610 | 12.9 ms |
 
 ### Archetype: `typo_quote`
 | Configuration | Cases | Hit@5 Accuracy | MRR@10 | Median Latency |
 |---|---:|---:|---:|---:|
-| Baseline 1: Lexical Only (BM25/FTS5) | 25 | 64.0% | 0.620 | 27.3 ms |
-| Baseline 2: Hybrid (Lexical + Dense RRF) | 25 | 64.0% | 0.620 | 33.1 ms |
-| DialogueMatch Full (Hybrid + Cross-Encoder Rerank) | 25 | 64.0% | 0.620 | 26.9 ms |
+| Baseline 1: Lexical Only (BM25/FTS5) | 105 | 48.6% | 0.481 | 29.0 ms |
+| Baseline 2: Hybrid (Lexical + Dense RRF) | 105 | 48.6% | 0.481 | 31.3 ms |
+| DialogueMatch Full (Hybrid + Cross-Encoder Rerank) | 105 | 48.6% | 0.481 | 27.8 ms |
 
 ### Archetype: `semantic_scene`
 | Configuration | Cases | Hit@5 Accuracy | MRR@10 | Median Latency |
 |---|---:|---:|---:|---:|
-| Baseline 1: Lexical Only (BM25/FTS5) | 25 | 100.0% | 0.880 | 41.6 ms |
-| Baseline 2: Hybrid (Lexical + Dense RRF) | 25 | 100.0% | 0.880 | 45.2 ms |
-| DialogueMatch Full (Hybrid + Cross-Encoder Rerank) | 25 | 100.0% | 0.889 | 1623.0 ms |
+| Baseline 1: Lexical Only (BM25/FTS5) | 105 | 97.1% | 0.802 | 46.6 ms |
+| Baseline 2: Hybrid (Lexical + Dense RRF) | 105 | 97.1% | 0.802 | 50.8 ms |
+| DialogueMatch Full (Hybrid + Cross-Encoder Rerank) | 105 | 99.0% | 0.866 | 1461.2 ms |
 
 ### Archetype: `narrative_tot`
 | Configuration | Cases | Hit@5 Accuracy | MRR@10 | Median Latency |
 |---|---:|---:|---:|---:|
-| Baseline 1: Lexical Only (BM25/FTS5) | 25 | 96.0% | 0.839 | 89.5 ms |
-| Baseline 2: Hybrid (Lexical + Dense RRF) | 25 | 96.0% | 0.839 | 100.4 ms |
-| DialogueMatch Full (Hybrid + Cross-Encoder Rerank) | 25 | 100.0% | 0.940 | 1680.3 ms |
+| Baseline 1: Lexical Only (BM25/FTS5) | 105 | 98.1% | 0.858 | 71.0 ms |
+| Baseline 2: Hybrid (Lexical + Dense RRF) | 105 | 98.1% | 0.858 | 67.6 ms |
+| DialogueMatch Full (Hybrid + Cross-Encoder Rerank) | 105 | 100.0% | 0.902 | 1542.7 ms |
 
 ## 4. Technical Architecture Teardown: Why This is Not a 'Scrap' Project
 
