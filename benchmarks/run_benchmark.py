@@ -96,6 +96,8 @@ def evaluate_engine_config(engine, cases, name, limit=10):
             "target_rank": target_rank,
             "elapsed_ms": elapsed_ms,
         })
+        if idx % 20 == 0 or idx == len(cases):
+            print(f"      Progress: {idx}/{len(cases)} queries evaluated...", flush=True)
 
     n = len(rows)
     sorted_latencies = sorted(latencies)
