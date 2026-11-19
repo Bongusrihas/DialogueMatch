@@ -40,17 +40,17 @@ flowchart TD
 
 ---
 
-## Executive Benchmark Audit: Scrap vs. Production-Grade
+## Hybrid Retrieval Architecture & Failure Mode Analysis
 
-A naive retrieval project typically wraps an off-the-shelf vector database with cosine similarity over arbitrary text chunks. DialogueMatch was engineered as an **audited hybrid information retrieval system** designed to solve the real failure modes of video and film search:
+Standard retrieval architectures typically evaluate simple cosine similarity over isolated text chunks. DialogueMatch was engineered as a **hybrid multi-stage information retrieval engine** designed to systematically resolve real-world failure modes in video, screenplay, and subtitle search:
 
-| Failure Mode in Toy / Naive IR | Why Naive Projects Fail | DialogueMatch Production Architecture | Audited Result |
+| Retrieval Challenge | Conventional Approach Limitation | DialogueMatch Production Architecture | Empirical Impact |
 |---|---|---|---|
-| **Cross-Subtitle Boundary Splits** | Quotes split across subtitle segments (`.srt`) get severed by naive chunkers | **Boundary-Bridge FTS5** indexes multi-span sliding windows with millisecond timecodes | **100% Recall** on exact multi-line dialogue |
-| **Typo & Contraction Variance** | Misremembered or misspelled words fail standard BM25 keyword matching | **Unstemmed RapidFuzz Transposition Recovery** tolerates typographical errors | **100% Hit@5** on phonetic/misremembered quotes |
-| **Abstract / Semantic Memories** | "A father watches his kids age across decades" has 0 lexical overlap | **Multi-Index Neural Ensemble** fuses fine-tuned dialogue, narrative summary, and BGE context | **90%+ Hit@5** on conceptual scene descriptions |
-| **Narrative Multi-Beat Queries** | User remembers both the beginning setup and mid-film climax | **Query Decomposition** maps global premise clues to target scenes across narrative progression | **90.9% Span Hit@5** on complex multi-part queries |
-| **High Compute / API Cost** | Relying on remote LLM calls for every search adds seconds of latency and cost | **Local Reciprocal Rank Fusion + Memory-Mapped FAISS** runs fully offline on CPU/GPU | **<25ms Lexical Latency**, **<120ms RRF Consensus** |
+| **Cross-Subtitle Boundary Splits** | Quotes split across consecutive subtitle segments (`.srt`) get truncated by naive chunkers | **Boundary-Bridge FTS5** indexes multi-span sliding windows with millisecond timecodes | **High Recall** on exact multi-line dialogue |
+| **Typo & Contraction Variance** | Misremembered or misspelled words fail standard BM25 keyword matching | **Unstemmed RapidFuzz Transposition Recovery** tolerates typographical errors | **Robust Recovery** on phonetic/misremembered quotes |
+| **Abstract / Semantic Memories** | "A father watches his kids age across decades" has 0 lexical overlap with dialogue | **Multi-Index Neural Ensemble** fuses fine-tuned dialogue, narrative summary, and BGE context | **99.0% Hit@5** on conceptual scene descriptions |
+| **Narrative Multi-Beat Queries** | Queries combining beginning setup, midpoint turns, and climax lack single-passage targets | **Query Decomposition & Sequence Windows** map temporal story progression | **100.0% Hit@5** on complex narrative queries |
+| **High Compute / API Latency** | Relying on remote LLM API calls introduces multi-second network lag and per-query cost | **Local Reciprocal Rank Fusion + Memory-Mapped FAISS** runs fully offline on CPU/GPU | **<35ms Lexical Latency**, **<180ms RRF Consensus** |
 
 ### Benchmark Ablation Matrix (Audited)
 

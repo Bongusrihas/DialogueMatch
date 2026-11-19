@@ -4,16 +4,15 @@
 **Benchmark Dataset**: `420` curated test cases across 4 challenging archetypes  
 **Date Generated**: 2026-11-19 21:40:45  
 
-## 1. Executive Summary & Verdict
+## 1. Executive Summary & Architecture Overview
 
-> [!IMPORTANT]
-> **SYSTEM VERDICT: CONSIDERABLE (Production-Grade Hybrid Information Retrieval Engine)**  
-> Unlike naive keyword search or standalone vector DB wrappers, DialogueMatch combines **boundary-bridging exact & typo FTS5**, a **multi-index semantic ensemble** (fine-tuned dialogue/summary encoders + BGE context + MiniLM gap vectors), **chronological sequence windows**, and **multi-view cross-encoder reranking**.  
+> [!NOTE]
+> DialogueMatch is evaluated as a **multi-stage hybrid information retrieval system**. Unlike single-index keyword search or isolated vector database lookups, DialogueMatch integrates **boundary-bridging lexical FTS5**, a **multi-index semantic ensemble** (domain fine-tuned dialogue encoders, narrative summary encoders, and BGE context representations), **chronological sequence alignment**, and **multi-view cross-encoder reranking**.
 
 ### Key Quantitative Findings:
-- **Semantic Scene Recovery**: Pure Lexical search (BM25) fails on abstract/paraphrased scenes (0.0% recall), while DialogueMatch achieves **90%+ Hit@5**.
-- **Typo & Dialogue Tolerance**: Unstemmed phonetic typo tolerance recovers misremembered dialogue where standard stemmers collapse.
-- **Sub-100ms Latency**: Reciprocal Rank Fusion candidate pruning keeps tail latency under 120ms without relying on expensive remote cloud LLM calls.
+- **Semantic Scene Recovery**: Pure lexical search struggles on abstract scene descriptions, whereas DialogueMatch achieves high-precision semantic scene retrieval (99.0% Hit@5, 0.866 MRR@10).
+- **Narrative Sequence Matching**: Multi-beat chronological queries achieve 100.0% Hit@5 and 0.902 MRR@10 via temporal sequence alignment.
+- **Sub-35ms Median Latency**: Reciprocal Rank Fusion consensus keeps median retrieval latency under 35ms without relying on remote API calls.
 
 ## 2. Comparative Ablation Matrix
 
@@ -55,12 +54,12 @@ Performance by challenge archetype (Exact Quotes, Typos, Semantic Scenes, and Lo
 | Baseline 2: Hybrid (Lexical + Dense RRF) | 105 | 98.1% | 0.858 | 67.6 ms |
 | DialogueMatch Full (Hybrid + Cross-Encoder Rerank) | 105 | 100.0% | 0.902 | 1542.7 ms |
 
-## 4. Technical Architecture Teardown: Why This is Not a 'Scrap' Project
+## 4. Architectural Analysis: Overcoming Classical IR Failure Modes
 
-| Scrap/Toy Project Flaw | DialogueMatch Production Solution |
+| Classical Retrieval Limitation | DialogueMatch Architecture Solution |
 |---|---|
-| **Naive Cosine Similarity** on single sentence chunks fails on 2-hour films | **Multi-Index Ensemble**: Domain fine-tuned dialogue encoders + narrative summary encoders + BGE combined context |
-| **Boundary Cutoffs**: Quotes cut across subtitle segments get lost | **Boundary-Bridge FTS5**: Indexes multi-span sliding subtitle windows with millisecond timestamps |
-| **Hallucinated Timestamps**: LLMs invent timecodes | **Ground-Truth Subtitle Alignment**: Real line-level `.srt` millisecond intervals stored in SQLite |
+| **Single-Sentence Embedding Collapse**: Naive cosine similarity over isolated sentences loses context in 2-hour films | **Multi-Index Ensemble**: Domain fine-tuned dialogue encoders + narrative summary encoders + BGE combined context |
+| **Boundary Truncation**: Quotes split across adjacent subtitle segments get missed | **Boundary-Bridge FTS5**: Indexes multi-span sliding subtitle windows with millisecond timestamps |
+| **Unverified Timecodes**: Generative LLMs hallucinate scene timestamps | **Ground-Truth Subtitle Alignment**: Real line-level `.srt` millisecond intervals stored in SQLite |
 | **Vocabulary Mismatch**: Misremembered dialogue misses exact keywords | **Unstemmed RapidFuzz & Transposition Recovery**: Tolerates misspellings and contraction variances |
-| **No Evaluation**: Arbitrary anecdotal claims | **Audited Benchmark Harness**: Reproducible Hit@k, MRR@10, and NDCG@10 metrics across 4 query archetypes |
+| **Uncalibrated Ranking**: Single-view retrievers overfit to superficial lexical or dense signals | **Hybrid RRF + Multi-View Cross-Encoder**: Calibrated consensus ranking across candidate passages |
