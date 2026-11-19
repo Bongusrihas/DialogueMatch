@@ -197,17 +197,8 @@ python -m dialoguematch test
 
 ---
 
-## Engineering Details for Resume & Technical Interviews
+## System Design Principles
 
-### Key Resume Bullet Points
-
-- **Machine Learning / Search Engineer**:
-  > *"Architected and deployed DialogueMatch, an end-to-end hybrid retrieval engine indexing 178K+ film scenes across 2,000 movies with millisecond-level subtitle timestamp alignment."*
-  > *"Engineered a 2-stage retrieval pipeline fusing unstemmed boundary-bridge FTS5 lexical search and a 4-model dense vector ensemble (fine-tuned sentence-transformers + BGE) via Reciprocal Rank Fusion (RRF), achieving 97.5% MRR@10 and 90%+ Scene Hit@5."*
-  > *"Integrated a multi-view cross-encoder reranker (`ms-marco-MiniLM-L-6-v2`) scoring dual text representations (prose narrative summary + token-budgeted dialogue window), pruning search latency to <160ms on CPU."*
-  > *"Designed an automated ablation benchmark suite measuring Hit@k, MRR, NDCG, and p95 latency across exact quotes, phonetic typos, and fuzzy 'tip-of-the-tongue' narrative queries."*
-
-### Key System Design Concepts
 - **Reciprocal Rank Fusion (RRF)**: Combines disparate score spaces (lexical BM25 unbounded scores vs neural cosine similarities) without fragile normalization hyper-parameters ($score = \sum \frac{1}{60 + rank}$).
 - **Boundary-Bridge Phrase Matching**: Handles cross-subtitle sentence splits where standard tokenizers fail by concatenating contiguous `.srt` blocks.
 - **Memory-Mapped FAISS (`IO_FLAG_MMAP`)**: Enables instant engine boot without loading gigabytes of vectors into active memory.
