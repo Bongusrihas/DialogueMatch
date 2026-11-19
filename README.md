@@ -208,7 +208,7 @@ python -m dialoguematch test
 
 ## Contributors
 
-- **Nithin Godugu** ([@nithingodugu](https://github.com/nithingodugu)) — Core search engine architecture, multi-index neural ensemble, query decomposition, benchmark harness, and Hugging Face distribution.
+- **Nithin Godugu** ([@nithingodugu24](https://github.com/nithingodugu24)) — Core search engine architecture, multi-index neural ensemble, query decomposition, benchmark harness, and Hugging Face distribution.
 - **Srihas Bongu** ([@Bongusrihas](https://github.com/Bongusrihas)) — Data pipeline, subtitle parsing and normalization, cinema web interface UI, and project coordination.
 
 ---
